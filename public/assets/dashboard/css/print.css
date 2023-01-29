@@ -1,0 +1,312 @@
+﻿@font-face {
+    font-family: 'Smart';
+    src: url('../fonts/ar-fonts/smart4ds.eot');
+    src: url('../fonts/ar-fonts/smart4ds.eot?#iefix') format('embedded-opentype'), url('../fonts/ar-fonts/smart4ds.woff') format('woff'), url('../fonts/ar-fonts/smart4ds.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SmartTitles';
+    src: url('../fonts/ar-fonts/smart4ds2.eot');
+    src: url('../fonts/ar-fonts/smart4ds2.eot?#iefix') format('embedded-opentype'), url('../fonts/ar-fonts/smart4ds2.woff') format('woff'), url('../fonts/ar-fonts/smart4ds2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: SmartTitles, sans-serif;
+    line-height: 1.5em;
+}
+
+*:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+    color: #444;
+    margin: 15px;
+}
+table{
+    width: 100%;
+}
+.rtl body, .rtl table th, .rtl table td {
+    text-align: right;
+}
+a {
+    color: #107145;
+}
+
+a:hover, a:focus {
+    color: #107145;
+}
+
+
+.container {
+    margin: 0 auto;
+    max-width: 75em;
+    min-width: 700px;
+}
+
+.responsive-table {
+    width: 100%;
+    border-spacing: 0;
+    font-size: 1em;
+    border-top: 1px solid #107145;
+}
+
+.responsive-table thead {
+    position: absolute;
+    clip: rect(1px 1px 1px 1px);
+    /* IE6, IE7 */
+    padding: 0;
+    border: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+.responsive-table thead {
+    position: relative;
+    clip: auto;
+    height: auto;
+    width: auto;
+    overflow: auto;
+}
+
+.responsive-table thead th {
+    background-color: #107145;
+    border: 1px solid #107145;
+    font-weight: normal;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.responsive-table thead th:first-of-type {
+    text-align: left;
+}
+.rtl .responsive-table thead th:first-of-type {
+    text-align: right ;
+}
+
+.responsive-table tbody,
+.responsive-table tr,
+.responsive-table th,
+.responsive-table td {
+    display: block;
+    padding: 0;
+    text-align: left;
+    white-space: normal;
+}
+
+.responsive-table tr {
+    display: table-row;
+}
+
+.responsive-table th,
+.responsive-table td {
+    padding: .5em;
+    vertical-align: middle;
+}
+
+.responsive-table th,
+.responsive-table td {
+    display: table-cell;
+    padding: .5em;
+}
+
+.responsive-table caption {
+    margin: 0.75em 0;
+    font-size: 14px;
+    text-align: center;
+}
+.responsive-table caption h1{
+    margin: 0 0 10px 0;
+}
+
+.responsive-table tfoot {
+    font-size: .8em;
+    font-style: italic;
+}
+
+.responsive-table tbody {
+    display: table-row-group;
+}
+
+.responsive-table tbody tr {
+    margin-bottom: 1em;
+}
+
+.responsive-table tbody tr {
+    display: table-row;
+    border-width: 1px;
+}
+
+.responsive-table tbody tr:last-of-type {
+    margin-bottom: 0;
+}
+
+.responsive-table tbody tr:nth-of-type(even) {
+    /*background-color: rgba(94, 93, 82, 0.1);*/
+}
+
+.responsive-table tbody th[scope="row"] {
+    background-color: #107145;
+    color: white;
+}
+
+.responsive-table tbody th[scope="row"] {
+    width: 20%;
+    font-size: 12px;
+}
+
+.responsive-table tbody td {
+    text-align: right;
+}
+
+.responsive-table tbody td {
+    border-left: 1px solid #107145;
+    border-bottom: 1px solid #107145;
+    font-size: 13px;
+}
+
+.responsive-table tbody td:last-of-type {
+    border-right: 1px solid #107145;
+}
+
+.responsive-table tbody td[data-type=currency] {
+    text-align: right;
+}
+
+.responsive-table tbody td[data-title]:before {
+    content: attr(data-title);
+    float: left;
+    font-size: .8em;
+}
+
+.rtl .responsive-table tbody td:last-of-type {
+    border-left: 1px solid #107145;
+}
+
+.rtl .responsive-table tbody td {
+    border-left: none;
+    border-right: 1px solid #107145;
+}
+
+label {
+    background: #eee;
+    border: 1px solid #ccc;
+    padding: 1px 6px;
+    display: inline-block;
+    border-radius: 3px;
+    position: relative;
+    margin: 0 5px;
+}
+
+label:after {
+    content: '';
+    position: absolute;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid #ccc;
+    display: inline-block;
+    margin: 0;
+    right: -7px;
+    top: calc(50% - 7px);
+}
+
+.rtl label:after {
+    border-right: 7px solid #bbb;
+    border-left: none;
+    left: -7px;
+    right: auto;
+}
+h6{
+    font-size: 20px;
+    margin: 20px 0 5px 0;
+}
+.border{
+    padding: 10px;
+    border: 1px solid #107145;
+}
+.center-table td,.center-table th{
+    text-align: center !important;
+}
+.caption {
+    margin: 0.75em 0;
+    font-size: 14px;
+    text-align: center;
+}
+.pull-right{
+    float: right;
+}
+.caption h1{
+    margin: 0px;
+}
+.voucher{
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    position: relative;
+}
+.voucher .amount,.voucher .date{
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px 20px;
+    background: #f9f9f9;
+}
+.voucher .date{
+    left: 0;
+    right: auto;
+}
+.voucher .signature1{
+    width: 33.3%;
+    display: table-cell;
+    text-align: center;
+    line-height: 2em;
+}
+.voucher .signature2{
+    width: 33.3%;
+    display: table-cell;
+    text-align: center;
+    line-height: 2em;
+}
+.voucher .signature3{
+    width: 33.3%;
+    display: table-cell;
+    text-align: center;
+    line-height: 2em;
+}
+.voucher .signatures{
+    margin: 20px 0px;
+    display: table;
+    width: 100%;
+}
+.voucher .number{
+    margin: 0 auto;
+    display: inline-block;
+    border: 1px dashed #ccc;
+    padding: 0px 10px;
+    min-width: 120px;
+    background: #f9f9f9;
+    font-size: 11px;
+}
+.voucher .person, .voucher .cost, .voucher .details{
+    text-align: center;
+}
+.bg-grey{
+    background: #eee;
+}
+.text-center{
+    text-align: center !important;
+}

@@ -1,0 +1,265 @@
+﻿.progress-dots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  margin: auto auto;
+  margin-bottom: 0px;
+  /* No select */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+.progress-dots > li {
+  position: relative;
+  display: table-cell;
+  text-align: center;
+  font-size: 1em;
+}
+.progress-dots > li:before {
+  content: attr(data-step);
+  content: url(../img/wait.png);
+  display: block;
+  margin: 0 auto;
+  background: #BBBDC0;
+  width: 60px;      /*----------70---------*/
+  height: 60px;     /*----------70---------*/
+  text-align: center;
+  padding-top: 10px; /*----------15---------*/
+  border-radius: 50%;
+  position: relative;
+  z-index: 100;
+  /*border: 5px solid #e5e5e5;*/
+}
+.progress-dots > li:after {
+  content: ' ';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 6px; /*----------10---------*/
+  top: 28px;
+  left: 50%;
+  margin-left: 0;
+  /*border: 1px solid #e5e5e5;*/
+    border-right: 0px solid #ffffff;
+    opacity:1.0;
+}
+.progress-dots > li.is-complete {
+  color: #00AB67;
+}
+.progress-dots > li.is-complete:before {
+  color: #FFF;
+  background: #3eccb4;
+  content: url(../img/ok.png);
+}
+.progress-dots > li.is-complete:after {
+  color: #FFF;
+  background: #b2e9d3;
+}
+
+.progress-dots > li.is-active {
+  color: #00AEF0;
+}
+.progress-dots > li.is-active:before {
+  color: #FFF;
+  background: #327ab4;
+  content: url(../img/working.png);
+}
+.progress-dots > li.is-active:after {
+  color: #FFF;
+  background: #97bfdf;
+}
+
+/* By steps */
+ .progress-dots > li.first:after {
+  background-color: #45b5ba;  /* transparent; No line before the first node */
+}
+ .progress-dots > li.first:before, .step1 {
+  background: #45b5ba;
+}
+.progress-dots > li.second:before, .progress-dots > li.second:after, .step2 {
+  background: #cb3335;
+}
+
+.progress-dots > li.third:before, .progress-dots > li.third:after, .step3 {
+  background: #5c8ea4;
+}
+
+.progress-dots > li.fourth:before, .progress-dots > li.fourth:after, .step4 {
+  background: #a4b15b;
+}
+
+.progress-dots > li.fifth:before, .progress-dots > li.fifth:after, .step5 {
+  background: #fd7c14;
+}
+
+.progress-dots > li a:hover, .progress-dots > li a:visited, .progress-dots > li a:active {
+    text-decoration: none;
+}
+
+.progress-dots > li h3 {
+    padding-top: 10px;
+    margin-top:10px;
+    min-height:60px;
+    font-size: 16px;
+    color:#327ab4;
+}
+
+.progress-dots > li h3.small-txt {
+    font-size: 16px;
+}
+
+
+/*
+.progress-dots > li.first h3 {
+    color: #45b5ba;
+}
+.progress-dots > li.second h3 {
+  color: #cb3335;
+}
+.progress-dots > li.third h3 {
+  color: #5c8ea4;
+}
+.progress-dots > li.fourth h3 {
+  color: #a4b15b;
+}
+.progress-dots > li.fifth h3 {
+  color: #AD1457;
+}
+*/
+
+/* The line under the circle */
+.progress-dots > li h3:before {
+    border-right: none; /* 2px solid #e0e0e0;*/
+    content: "";
+    margin: 0 auto; /* this centers the line to the full width specified */
+    position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
+    top: 10px;
+    left: 0;
+    right: 50%;
+    bottom: 0;
+    height: 70%;
+    z-index: -1;
+}
+
+.progress-dots > li.first h3:before {
+    border-right-color: #45b5ba;
+}
+.progress-dots > li.second h3:before {
+    border-right-color: #cb3335;
+}
+.progress-dots > li.third h3:before {
+    border-right-color: #5c8ea4;
+}
+.progress-dots > li.fourth h3:before {
+    border-right-color: #a4b15b;
+}
+.progress-dots > li.fifth h3:before {
+    border-right-color: #fd7c14;
+}
+
+   /* ** If you want one color bar [with line before first node]*/
+.progress-dots > li.first:before,  .progress-dots > li.first:after,
+.progress-dots > li.second:before, .progress-dots > li.second:after,
+.progress-dots > li.third:before, .progress-dots > li.third:after, 
+.progress-dots > li.fourth:before, .progress-dots > li.fourth:after, 
+.progress-dots > li.fifth:before, .progress-dots > li.fifth:after, 
+.progress-dots > li.sixth:before, .progress-dots > li.sixth:after, 
+.progress-dots > li.seventh:before, .progress-dots > li.seventh:after {
+  background: #c3c4c5;
+}
+.progress-dots > li.is-complete.first:before, .progress-dots > li.is-complete.first:after,
+.progress-dots > li.is-complete.second:before, .progress-dots > li.is-complete.second:after,
+.progress-dots > li.is-complete.third:before, .progress-dots > li.is-complete.third:after,
+.progress-dots > li.is-complete.fourth:before, .progress-dots > li.is-complete.fourth:after,
+.progress-dots > li.is-complete.fifth:before, .progress-dots > li.is-complete.fifth:after,
+.progress-dots > li.is-complete.sixth:before, .progress-dots > li.is-complete.sixth:after,
+.progress-dots > li.is-complete.seventh:before, .progress-dots > li.is-complete.seventh:after {
+  background: #327ab4;
+  border-color: #d7d7d7;
+}
+
+.progress-dots > li.is-active:before, .progress-dots > li.is-active:after {
+  background: #97bfdf;
+  border-color: #d7d7d7;
+}
+
+
+.progress-dots > li.is-active:before {
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+
+/* sm */
+@media (min-width: 768px) and (max-width: 991px) {
+    .progress-dots > li h3 {
+    font-size: 14px;
+    padding:0 10px;
+    }
+}
+
+/* xs */
+@media (max-width: 767px) {
+
+    .progress-dots > li:after {
+        height: 5px; 
+    }
+
+    .progress-dots > li h3 {
+    font-size: 16px;
+    padding:0 15px;
+    }
+
+}
+
+
+/* XS Portrait */
+@media (max-width: 479px) {
+
+    .progress-dots > li:before {
+        content: url(../img/wait-xs.png);
+    }
+
+    .progress-dots > li.is-complete:before {
+          content: url(../img/ok-xs.png);
+    }
+
+    .progress-dots > li.is-active:before {
+      content: url(../img/working-xs.png);
+    }
+
+    .progress-dots > li:before {
+      width: 42px;
+      height: 42px;
+      padding-top: 6px;
+    }
+
+    .progress-dots > li:after {
+      height: 4px;
+      top: 19px;
+      margin-left: 0;
+    }
+
+.progress-dots > li h3 {
+    padding-top: 10px;
+    margin-top:5px;
+    font-size:13px;
+    line-height: 22px;
+}
+
+    .progress-dots > li h3.small-txt {
+    font-size: 10px;
+    }
+
+}

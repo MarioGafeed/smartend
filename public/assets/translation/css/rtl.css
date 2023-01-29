@@ -1,0 +1,11 @@
+.mr-2 {
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+.panel-body td, .panel-body th {
+    text-align: right;
+}
+.select-group {
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
