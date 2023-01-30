@@ -168,7 +168,8 @@ class TopicsSeeder extends Seeder
         $Topic->title_th = "บ้าน";
 
         $Topic->details_ar = "<div style='text-align: center'><h2>مرحبا بكم في موقعنا</h2>
-هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.</div>";
+        تدور أحداث الفيلم حول حياة الفيلسوف «أوغسطينوس» الذي ينحدر من أصول أمازيغية، وولد عام «٣٥٤» في منطقة طاغست «سوق هوس» بالجزائر حاليا،ليتحول أثناء فترة تدريسه بها من الإيمان بالديانة المانوية «الزنادقة»، نسبة إلى «ماني» الذي حاول الجمع بين الديانات المسيحية والبوذية والزرادشتية، إلى محارب لها مؤمن بمذهب الأفلاطونية، ومنه للمسيحية بعد الإبحار في العديد من المذاهب الدينية والفلسفية، التى حاول من خلالها البحث عن معنى للحياة. ولُقب هذا الفيلسوف بـ« ابن دموعها» نسبة إلى أمه التى ظلت تبكى عليه لسنوات طويلة نظرا لاعتناقه الديانة المانوية الوثنية.
+</div>";
 
         $Topic->details_en = "<div style='text-align: center'><h2>Welcome to our website</h2>It is a long established fact that a reader will be distracted by the readable content of a page.It is a long established fact that a reader will be distracted by the readable content of a page.It is a long established fact that a reader will be distracted by the readable content of a page.It is a long established fact that a reader will be distracted by the readable content of a page.It is a long established fact that a reader will be distracted by the readable content of a page.</div>";
 

@@ -17,7 +17,7 @@ class BannersSeeder extends Seeder
         $Banner->row_no = 1;
         $Banner->section_id = 1;
 
-        $Banner->title_ar = "بنر رقم ١";
+        $Banner->title_ar = "عرض الفيلم كامل";
         $Banner->title_en = "Banner #1";
         $Banner->title_ch = "横幅 #1";
         $Banner->title_hi = "बैनर #1";
@@ -40,7 +40,7 @@ class BannersSeeder extends Seeder
         $Banner->details_th = "เป็นข้อเท็จจริงที่มีมาช้านานว่าผู้อ่านจะถูกรบกวนโดยเนื้อหาที่อ่านได้ของหน้า";
 
 
-        $Banner->file_ar = "noimg.png";
+        $Banner->file_ar = "cover.png";
         $Banner->file_en = "noimg.png";
         $Banner->file_ch = "noimg.png";
         $Banner->file_hi = "noimg.png";
@@ -61,7 +61,7 @@ class BannersSeeder extends Seeder
         $Banner->row_no = 2;
         $Banner->section_id = 1;
 
-        $Banner->title_ar = "بنر رقم ٢";
+        $Banner->title_ar = "اجمل لقطات الفيلم";
         $Banner->title_en = "Banner #2";
         $Banner->title_ch = "横幅 #2";
         $Banner->title_hi = "बैनर #2";
