@@ -197,7 +197,7 @@ if (Helper::GeneralSiteSettings("style_footer") != 1) {
                         @if(Helper::GeneralSiteSettings('social_link8'))
                             <li><a href="{{Helper::GeneralSiteSettings('social_link8')}}" data-placement="top" title="TikTok"
                                    target="_blank"><i
-                                        class="fab fa-tiktok"></i></a></li>
+                                        class="fa fa-tiktok"></i></a></li>
                         @endif
                         @if(Helper::GeneralSiteSettings('social_link9'))
                             <li><a href="{{Helper::GeneralSiteSettings('social_link9')}}" data-placement="top" title="Snapchat"
