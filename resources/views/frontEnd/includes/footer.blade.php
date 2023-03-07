@@ -195,9 +195,9 @@ if (Helper::GeneralSiteSettings("style_footer") != 1) {
                                         class="fa fa-pinterest"></i></a></li>
                         @endif
                         @if(Helper::GeneralSiteSettings('social_link8'))
-                            <li><a href="{{Helper::GeneralSiteSettings('social_link8')}}" data-placement="top" title="Tumblr"
+                            <li><a href="{{Helper::GeneralSiteSettings('social_link8')}}" data-placement="top" title="TikTok"
                                    target="_blank"><i
-                                        class="fa fa-tumblr"></i></a></li>
+                                        class="fab fa-tiktok"></i></a></li>
                         @endif
                         @if(Helper::GeneralSiteSettings('social_link9'))
                             <li><a href="{{Helper::GeneralSiteSettings('social_link9')}}" data-placement="top" title="Snapchat"
