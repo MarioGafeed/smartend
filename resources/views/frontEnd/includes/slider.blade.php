@@ -66,7 +66,7 @@
                                     @endif
                                     @if($SliderBanner->link_url !="")
                                         <a href="{!! $SliderBanner->link_url !!}"
-                                           class="btn btn-theme">{{ __('frontend.moreDetails') }}</a>
+                                           class="btn btn-theme">{{ __('frontend.watchnow') }}</a>
                                     @endif
                                 </div>
                             @endif

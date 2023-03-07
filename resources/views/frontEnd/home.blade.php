@@ -91,7 +91,7 @@
                                         </div>
                                         @if($TextBanner->link_url !="")
                                             <div class="box-bottom">
-                                                <a href="{!! $TextBanner->link_url !!}">{{ __('frontend.moreDetails') }}</a>
+                                                <a href="{!! $TextBanner->link_url !!}">{{ __('frontend.watchnow') }}</a>
                                             </div>
                                         @endif
 

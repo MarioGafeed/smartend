@@ -52,7 +52,7 @@ return [
     'newComment' => 'Add New Comment',
     'refresh' => 'Refresh',
     'getInTouch' => 'Get in touch with us by filling contact form below',
-    'homeContents1Title' => 'Latest Articles',
+    'homeContents1Title' => 'Photos archive',
     'homeContents1desc' => 'The latest articles from our blog, you can browse more',
     'homeContents2Title' => 'Recent Works',
     'homeContents2desc' => 'Some of our latest works, you can browse more',
