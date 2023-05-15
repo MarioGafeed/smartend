@@ -243,7 +243,7 @@
                                                                 if ($customField->view_permission_groups != "") {
                                                                     $view_permission_groups = explode(",", $customField->view_permission_groups);
                                                                 }
-                                                                if (in_array(0, $view_permission_groups) || $customField->view_permission_groups=="") {
+                                                                if (in_array(0, $view_permission_groups) || $customField->view_permission_groups == "") {
                                                                 // have permission & continue
                                                                 ?>
                                                                 @if ($customField->in_listing)
@@ -313,7 +313,14 @@
                                                                                     @endforeach
                                                                                 </div>
                                                                             </div>
-                                                                        @elseif($customField->type ==6)
+                                                                        @elseif($customField->type ==14)
+                                                                            {{--Checkbox--}}
+                                                                            <div class="row field-row">
+                                                                                <div class="col-lg-12">
+                                                                                    {!! (($cf_saved_val == 1) ? "&check;" : "&bigotimes;"); !!} {!!  $cf_title !!} {!! "(".(($cf_saved_val == 1) ? __('backend.yes') : __('backend.no')).")" !!}
+                                                                                </div>
+                                                                            </div>
+                                                                        @elseif($customField->type ==6 || $customField->type ==13)
                                                                             {{--Select--}}
                                                                             <div class="row field-row">
                                                                                 <div class="col-lg-3">
@@ -390,7 +397,7 @@
                                                                                     {!!  $cf_title !!} :
                                                                                 </div>
                                                                                 <div class="col-lg-9">
-                                                                                    {!! $cf_saved_val !!}
+                                                                                    {!! Helper::ParseLinks($cf_saved_val) !!}
                                                                                 </div>
                                                                             </div>
                                                                         @endif
@@ -410,7 +417,8 @@
                                             <div class="bottom-article">
                                                 <ul class="meta-post">
                                                     @if($Topic->webmasterSection->date_status)
-                                                        <li><i class="fa fa-calendar"></i> <a>{!! Helper::formatDate($Topic->date)  !!}</a>
+                                                        <li><i class="fa fa-calendar"></i>
+                                                            <a>{!! Helper::formatDate($Topic->date)  !!}</a>
                                                         </li>
                                                     @endif
                                                     <li><i class="fa fa-eye"></i> <a>{{ __('frontend.visits') }}

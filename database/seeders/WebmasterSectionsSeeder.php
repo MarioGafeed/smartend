@@ -1,5 +1,6 @@
 <?php
 namespace Database\Seeders;
+use App\Models\WebmasterSectionField;
 use Illuminate\Database\Seeder;
 use App\Models\WebmasterSection;
 
@@ -515,6 +516,36 @@ class WebmasterSectionsSeeder extends Seeder
         $sections->status = 1;
         $sections->created_by = 1;
         $sections->save();
+
+        $WebmasterSectionField = new WebmasterSectionField();
+        $WebmasterSectionField->webmaster_id = $sections->id;
+        $WebmasterSectionField->type = 0;
+        $WebmasterSectionField->title_ar = "رابط";
+        $WebmasterSectionField->title_en = "URL";
+        $WebmasterSectionField->title_ch = "URL";
+        $WebmasterSectionField->title_hi = "URL";
+        $WebmasterSectionField->title_es = "URL";
+        $WebmasterSectionField->title_ru = "URL";
+        $WebmasterSectionField->title_pt = "URL";
+        $WebmasterSectionField->title_fr = "URL";
+        $WebmasterSectionField->title_de = "URL";
+        $WebmasterSectionField->title_th = "URL";
+        $WebmasterSectionField->default_value = null;
+        $WebmasterSectionField->row_no = 1;
+        $WebmasterSectionField->status = 1;
+        $WebmasterSectionField->required = 0;
+        $WebmasterSectionField->in_table = 1;
+        $WebmasterSectionField->in_search = 0;
+        $WebmasterSectionField->in_listing = 0;
+        $WebmasterSectionField->in_page = 1;
+        $WebmasterSectionField->in_statics = 0;
+        $WebmasterSectionField->lang_code = "all";
+        $WebmasterSectionField->view_permission_groups = "0";
+        $WebmasterSectionField->add_permission_groups = "0";
+        $WebmasterSectionField->edit_permission_groups = "0";
+        $WebmasterSectionField->created_by = 1;
+        $WebmasterSectionField->updated_by = 1;
+        $WebmasterSectionField->save();
 
     }
 }

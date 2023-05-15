@@ -74,7 +74,7 @@ return array(
     'audioTypes' => 'Extensions: .mp3, .wav',
     'attachTypes' => 'Extensions: (* ALL)',
     'addDone' => 'New record has been Added successfully',
-    'saveDone' => 'Modifications you have made saved successfully',
+    'saveDone' => 'Modifications saved successfully',
     'deleteDone' => 'Data was deleted successfully',
     'error' => 'There is an error, please try again',
     'noData' => 'There is no data here up to now',
@@ -437,7 +437,7 @@ return array(
     'customFieldsType4' => 'Date',
     'customFieldsType5' => 'Date & Time',
     'customFieldsType6' => 'Select',
-    'customFieldsType7' => 'Multi Check',
+    'customFieldsType7' => 'Multi Select',
     'customFieldsType8' => 'Photo File',
     'customFieldsType9' => 'Attach File',
     'customFieldsType10' => 'Video File',
@@ -648,4 +648,12 @@ return array(
     'textEditorDetails' => 'Choose the Text Editor you are preferred for page details editing',
     'preview' => 'Preview',
     'back' => 'Back',
+
+    // v9.1
+    'clickToUseDragAndDropEditor' => 'Use drag & drop editor',
+    'savePageToUseDragAndDropEditor' => 'Save page first if you want to use the drag & drop editor to format page contents',
+    'customFieldsType13' => 'Select ( Radio )',
+    'customFieldsType14' => 'Checkbox',
+    'refreshAfterKEdit' => 'You will need to refresh this page after updating via drag & drop editor',
+
 );

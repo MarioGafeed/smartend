@@ -63,7 +63,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                         {!! Form::text('date',Helper::formatDate($EditEvent->start_date), array('placeholder' => '','class' => 'form-control','id'=>'edit_date')) !!}
                                         <span class="input-group-addon">
@@ -94,7 +95,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                         {!! Form::text('date_at',Helper::formatDate($EditEvent->start_date)." ".date("h:i A", strtotime($EditEvent->start_date)), array('placeholder' => '','class' => 'form-control','id'=>'edit_date_at')) !!}
                                         <span class="input-group-addon">
@@ -125,7 +127,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                             {!! Form::text('time_start',Helper::formatDate($EditEvent->start_date)." ".date("h:i A", strtotime($EditEvent->start_date)), array('placeholder' => '','class' => 'form-control','id'=>'edit_time_start')) !!}
                                             <span class="input-group-addon">
@@ -154,7 +157,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                             {!! Form::text('time_end',Helper::formatDate($EditEvent->end_date)." ".date("h:i A", strtotime($EditEvent->end_date)), array('placeholder' => '','class' => 'form-control','id'=>'edit_time_end')) !!}
                                             <span class="input-group-addon">
@@ -186,7 +190,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                             {!! Form::text('date_start',Helper::formatDate($EditEvent->start_date), array('placeholder' => '','class' => 'form-control','id'=>'edit_date_start')) !!}
                                             <span class="input-group-addon">
@@ -215,7 +220,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                             {!! Form::text('date_end',Helper::formatDate($EditEvent->end_date), array('placeholder' => '','class' => 'form-control','id'=>'edit_date_end')) !!}
                                             <span class="input-group-addon">

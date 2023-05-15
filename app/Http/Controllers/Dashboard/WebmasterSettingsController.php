@@ -21,6 +21,7 @@ use App\Models\WebmasterSectionField;
 use App\Models\WebmasterSetting;
 use Auth;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Exception;
 use Redirect;
 use File;
 use Helper;
@@ -37,7 +38,7 @@ class WebmasterSettingsController extends Controller
         $this->middleware('auth');
 
         // Check Permissions
-        if(!@Auth::user()->permissionsGroup->webmaster_status){
+        if (!@Auth::user()->permissionsGroup->webmaster_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
 
@@ -76,18 +77,21 @@ class WebmasterSettingsController extends Controller
         //
         $WebmasterSetting = WebmasterSetting::find(1);
         if (!empty($WebmasterSetting)) {
-            $WebmasterSetting->seo_status = $request->seo_status;
-            $WebmasterSetting->analytics_status = $request->analytics_status;
-            $WebmasterSetting->banners_status = $request->banners_status;
-            $WebmasterSetting->inbox_status = $request->inbox_status;
-            $WebmasterSetting->calendar_status = $request->calendar_status;
-            $WebmasterSetting->settings_status = $request->settings_status;
-            $WebmasterSetting->newsletter_status = $request->newsletter_status;
+            $WebmasterSetting->seo_status = ($request->seo_status) ? 1 : 0;
+            $WebmasterSetting->analytics_status = ($request->analytics_status) ? 1 : 0;
+            $WebmasterSetting->banners_status = ($request->banners_status) ? 1 : 0;
+            $WebmasterSetting->inbox_status = ($request->inbox_status) ? 1 : 0;
+            $WebmasterSetting->calendar_status = ($request->calendar_status) ? 1 : 0;
+            $WebmasterSetting->settings_status = ($request->settings_status) ? 1 : 0;
+            $WebmasterSetting->newsletter_status = ($request->newsletter_status) ? 1 : 0;
             $WebmasterSetting->members_status = 0; //$request->orders_status;
             $WebmasterSetting->orders_status = 0; //$request->orders_status;
             $WebmasterSetting->shop_status = 0; //$request->shop_status;
             $WebmasterSetting->shop_settings_status = 0; //$request->shop_settings_status;
             $WebmasterSetting->default_currency_id = $request->default_currency_id;
+            if ($request->languages_by_default == "") {
+                $request->languages_by_default = "en";
+            }
             $WebmasterSetting->languages_by_default = $request->languages_by_default;
             $WebmasterSetting->header_menu_id = $request->header_menu_id;
             $WebmasterSetting->footer_menu_id = $request->footer_menu_id;
@@ -96,11 +100,11 @@ class WebmasterSettingsController extends Controller
             $WebmasterSetting->side_banners_section_id = $request->side_banners_section_id;
             $WebmasterSetting->contact_page_id = $request->contact_page_id;
             $WebmasterSetting->newsletter_contacts_group = $request->newsletter_contacts_group;
-            $WebmasterSetting->new_comments_status = $request->new_comments_status;
-            $WebmasterSetting->links_status = $request->links_status;
-            $WebmasterSetting->register_status = $request->register_status;
+            $WebmasterSetting->new_comments_status = ($request->new_comments_status) ? 1 : 0;
+            $WebmasterSetting->links_status = ($request->links_status) ? 1 : 0;
+            $WebmasterSetting->register_status = ($request->register_status) ? 1 : 0;
             $WebmasterSetting->permission_group = $request->permission_group;
-            $WebmasterSetting->api_status = $request->api_status;
+            $WebmasterSetting->api_status = ($request->api_status) ? 1 : 0;
             $WebmasterSetting->api_key = $request->api_key;
             $WebmasterSetting->home_content1_section_id = $request->home_content1_section_id;
             $WebmasterSetting->home_content2_section_id = $request->home_content2_section_id;
@@ -117,33 +121,33 @@ class WebmasterSettingsController extends Controller
             $WebmasterSetting->mail_no_replay = ($request->mail_no_replay != "") ? $request->mail_no_replay : "";
             $WebmasterSetting->mail_title = $request->mail_title;
             $WebmasterSetting->mail_template = $request->mail_template;
-            $WebmasterSetting->nocaptcha_status = $request->nocaptcha_status;
+            $WebmasterSetting->nocaptcha_status = ($request->nocaptcha_status) ? 1 : 0;
             $WebmasterSetting->nocaptcha_secret = ($request->nocaptcha_secret != "") ? $request->nocaptcha_secret : "";
             $WebmasterSetting->nocaptcha_sitekey = ($request->nocaptcha_sitekey != "") ? $request->nocaptcha_sitekey : "";
-            $WebmasterSetting->google_tags_status = $request->google_tags_status;
-            $WebmasterSetting->google_tags_id = ($request->google_tags_id!="")?$request->google_tags_id:"";
-            $WebmasterSetting->google_analytics_code = ($request->google_analytics_code!="")?$request->google_analytics_code:"";
+            $WebmasterSetting->google_tags_status = ($request->google_tags_status) ? 1 : 0;
+            $WebmasterSetting->google_tags_id = ($request->google_tags_id != "") ? $request->google_tags_id : "";
+            $WebmasterSetting->google_analytics_code = ($request->google_analytics_code != "") ? $request->google_analytics_code : "";
 
-            $WebmasterSetting->login_facebook_status = $request->login_facebook_status;
-            $WebmasterSetting->login_facebook_client_id = ($request->login_facebook_client_id!="")?$request->login_facebook_client_id:"";
-            $WebmasterSetting->login_facebook_client_secret = ($request->login_facebook_client_secret!="")?$request->login_facebook_client_secret:"";
-            $WebmasterSetting->login_twitter_status = $request->login_twitter_status;
-            $WebmasterSetting->login_twitter_client_id = ($request->login_twitter_client_id!="")?$request->login_twitter_client_id:"";
-            $WebmasterSetting->login_twitter_client_secret = ($request->login_twitter_client_secret!="")?$request->login_twitter_client_secret:"";
-            $WebmasterSetting->login_google_status = $request->login_google_status;
-            $WebmasterSetting->login_google_client_id = ($request->login_google_client_id!="")?$request->login_google_client_id:"";
-            $WebmasterSetting->login_google_client_secret = ($request->login_google_client_secret!="")?$request->login_google_client_secret:"";
-            $WebmasterSetting->login_linkedin_status = $request->login_linkedin_status;
-            $WebmasterSetting->login_linkedin_client_id = ($request->login_linkedin_client_id!="")?$request->login_linkedin_client_id:"";
-            $WebmasterSetting->login_linkedin_client_secret = ($request->login_linkedin_client_secret!="")?$request->login_linkedin_client_secret:"";
-            $WebmasterSetting->login_github_status = $request->login_github_status;
-            $WebmasterSetting->login_github_client_id = ($request->login_github_client_id!="")?$request->login_github_client_id:"";
-            $WebmasterSetting->login_github_client_secret = ($request->login_github_client_secret!="")?$request->login_github_client_secret:"";
-            $WebmasterSetting->login_bitbucket_status = $request->login_bitbucket_status;
-            $WebmasterSetting->login_bitbucket_client_id = ($request->login_bitbucket_client_id!="")?$request->login_bitbucket_client_id:"";
-            $WebmasterSetting->login_bitbucket_client_secret = ($request->login_bitbucket_client_secret!="")?$request->login_bitbucket_client_secret:"";
+            $WebmasterSetting->login_facebook_status = ($request->login_facebook_status) ? 1 : 0;
+            $WebmasterSetting->login_facebook_client_id = ($request->login_facebook_client_id != "") ? $request->login_facebook_client_id : "";
+            $WebmasterSetting->login_facebook_client_secret = ($request->login_facebook_client_secret != "") ? $request->login_facebook_client_secret : "";
+            $WebmasterSetting->login_twitter_status = ($request->login_twitter_status) ? 1 : 0;
+            $WebmasterSetting->login_twitter_client_id = ($request->login_twitter_client_id != "") ? $request->login_twitter_client_id : "";
+            $WebmasterSetting->login_twitter_client_secret = ($request->login_twitter_client_secret != "") ? $request->login_twitter_client_secret : "";
+            $WebmasterSetting->login_google_status = ($request->login_google_status) ? 1 : 0;
+            $WebmasterSetting->login_google_client_id = ($request->login_google_client_id != "") ? $request->login_google_client_id : "";
+            $WebmasterSetting->login_google_client_secret = ($request->login_google_client_secret != "") ? $request->login_google_client_secret : "";
+            $WebmasterSetting->login_linkedin_status = ($request->login_linkedin_status) ? 1 : 0;
+            $WebmasterSetting->login_linkedin_client_id = ($request->login_linkedin_client_id != "") ? $request->login_linkedin_client_id : "";
+            $WebmasterSetting->login_linkedin_client_secret = ($request->login_linkedin_client_secret != "") ? $request->login_linkedin_client_secret : "";
+            $WebmasterSetting->login_github_status = ($request->login_github_status) ? 1 : 0;
+            $WebmasterSetting->login_github_client_id = ($request->login_github_client_id != "") ? $request->login_github_client_id : "";
+            $WebmasterSetting->login_github_client_secret = ($request->login_github_client_secret != "") ? $request->login_github_client_secret : "";
+            $WebmasterSetting->login_bitbucket_status = ($request->login_bitbucket_status) ? 1 : 0;
+            $WebmasterSetting->login_bitbucket_client_id = ($request->login_bitbucket_client_id != "") ? $request->login_bitbucket_client_id : "";
+            $WebmasterSetting->login_bitbucket_client_secret = ($request->login_bitbucket_client_secret != "") ? $request->login_bitbucket_client_secret : "";
 
-            $WebmasterSetting->dashboard_link_status = $request->dashboard_link_status;
+            $WebmasterSetting->dashboard_link_status = ($request->dashboard_link_status) ? 1 : 0;
             $WebmasterSetting->text_editor = $request->text_editor;
             $WebmasterSetting->tiny_key = $request->tiny_key;
             $WebmasterSetting->timezone = $request->timezone;
@@ -152,7 +156,7 @@ class WebmasterSettingsController extends Controller
             $WebmasterSetting->save();
 
             $OLD_BACKEND_PATH = env("BACKEND_PATH");
-            if($request->backend_path ==""){
+            if ($request->backend_path == "") {
                 $request->backend_path = "admin";
             }
             // Update .env file
@@ -318,7 +322,15 @@ class WebmasterSettingsController extends Controller
                     if ($Language->code == "en") {
                         $success = true;
                     } else {
-                        $success = \File::deleteDirectory(base_path("lang/" . $Language->code));
+                        try {
+                            if (\File::exists(base_path("lang/" . $Language->code))) {
+                                $success = \File::deleteDirectory(base_path("lang/" . $Language->code));
+                            } else {
+                                $success = true;
+                            }
+                        } catch (\Exception $e) {
+                            $success = true;
+                        }
                     }
                     if ($success) {
                         $Language->delete();
@@ -890,24 +902,30 @@ class WebmasterSettingsController extends Controller
             if ($request->mail_driver == "smtp" && $request->mail_host != "" && $request->mail_port != "") {
                 try {
                     $email_subject = "Test Mail From " . env("APP_NAME");
-                    $email_body = "This is a Test Mail \r\n
-Mail Driver: " . $request->mail_driver . "
-Mail Host: " . $request->mail_host . "
-Mail Port: " . $request->mail_port . "
-Mail Username: " . $request->mail_username . "
-Email from: " . $request->mail_no_replay . "
+                    $email_body = "This is a Test Mail <br>
+Mail Driver: " . $request->mail_driver . "<br>
+Mail Host: " . $request->mail_host . "<br>
+Mail Port: " . $request->mail_port . "<br>
+Mail Username: " . $request->mail_username . "<br>
+Email from: " . $request->mail_no_replay . "<br>
 Email to: " . $request->mail_test . "
 ";
                     $to_email = $request->mail_test;
-                    $to_name = "";
+                    $to_name = $request->mail_test;
                     $from_email = $request->mail_no_replay;
                     $from_name = env("APP_NAME");
-                    Mail::send([], [], function ($message) use ($email_subject, $email_body, $to_email, $to_name, $from_email, $from_name) {
-                        $message->from($from_email, $from_name)
-                            ->to($to_email, $to_name)
-                            ->subject($email_subject)
-                            ->setBody($email_body);
+
+                    Mail::send('emails.template', [
+                        'title' => $email_subject,
+                        'details' => $email_body
+                    ], function ($message) use ($email_subject, $to_email, $to_name, $from_email, $from_name) {
+                        $message->from($from_email, $from_name);
+                        $message->to($to_email);
+                        $message->replyTo($from_email, $from_name);
+                        $message->subject($email_subject);
+
                     });
+
                     return json_encode(array("stat" => "success"));
                 } catch (\Exception $e) {
                     return json_encode(array("stat" => "error"));

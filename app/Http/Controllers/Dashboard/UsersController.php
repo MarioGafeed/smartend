@@ -93,13 +93,7 @@ class UsersController extends Controller
             'photo' => 'mimes:png,jpeg,jpg,gif,svg',
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => ['required', Password::min(6)
-                ->letters()
-                ->mixedCase()
-                ->numbers()
-                ->symbols()
-                ->uncompromised()
-            ],
+            'password' => 'required|min:6',
             'permissions_id' => 'required'
         ]);
 
@@ -115,19 +109,26 @@ class UsersController extends Controller
         }
         // End of Upload Files
 
-        $User = new User;
-        $User->name = $request->name;
-        $User->email = $request->email;
-        $User->password = bcrypt($request->password);
-        $User->permissions_id = $request->permissions_id;
-        $User->photo = $fileFinalName_ar;
-        $User->connect_email = $request->connect_email;
-        $User->connect_password = $request->connect_password;
-        $User->status = 1;
-        $User->created_by = Auth::user()->id;
-        $User->save();
+        if ($request->password != "" && $request->email != "") {
+            try {
+                $User = new User;
+                $User->name = $request->name;
+                $User->email = $request->email;
+                $User->password = bcrypt($request->password);
+                $User->permissions_id = $request->permissions_id;
+                $User->photo = $fileFinalName_ar;
+                $User->connect_email = $request->connect_email;
+                $User->connect_password = $request->connect_password;
+                $User->status = 1;
+                $User->created_by = Auth::user()->id;
+                $User->save();
 
-        return redirect()->action('Dashboard\UsersController@index')->with('doneMessage', __('backend.addDone'));
+                return redirect()->action('Dashboard\UsersController@index')->with('doneMessage', __('backend.addDone'));
+            } catch (\Exception $e) {
+
+            }
+        }
+        return redirect()->action('Dashboard\UsersController@index')->with('errorMessage', __('backend.error'));
     }
 
     public function getUploadPath()
@@ -185,66 +186,69 @@ class UsersController extends Controller
         $User = User::find($id);
         if (!empty($User)) {
 
-
-            $this->validate($request, [
-                'photo' => 'mimes:png,jpeg,jpg,gif,svg',
-                'name' => 'required',
-                'permissions_id' => 'required'
-            ]);
-
-            if ($request->email != $User->email) {
+            try {
                 $this->validate($request, [
-                    'email' => 'required|email|unique:users',
+                    'photo' => 'mimes:png,jpeg,jpg,gif,svg',
+                    'name' => 'required',
+                    'permissions_id' => 'required'
                 ]);
-            }
-            // Start of Upload Files
-            $formFileName = "photo";
-            $fileFinalName_ar = "";
-            if ($request->$formFileName != "") {
-                $fileFinalName_ar = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
-                $path = $this->getUploadPath();
-                $request->file($formFileName)->move($path, $fileFinalName_ar);
-            }
-            // End of Upload Files
 
-            //if ($id != 1) {
-            $User->name = $request->name;
-            $User->email = $request->email;
-            if ($request->password != "") {
-                $User->password = bcrypt($request->password);
-            }
-            $User->permissions_id = $request->permissions_id;
-            //}
-            if ($request->photo_delete == 1) {
-                // Delete a User file
-                if ($User->photo != "") {
-                    File::delete($this->getUploadPath() . $User->photo);
+                if ($request->email != $User->email) {
+                    $this->validate($request, [
+                        'email' => 'required|email|unique:users',
+                    ]);
+                }
+                // Start of Upload Files
+                $formFileName = "photo";
+                $fileFinalName_ar = "";
+                if ($request->$formFileName != "") {
+                    $fileFinalName_ar = time() . rand(1111,
+                            9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                    $path = $this->getUploadPath();
+                    $request->file($formFileName)->move($path, $fileFinalName_ar);
+                }
+                // End of Upload Files
+
+                //if ($id != 1) {
+                $User->name = $request->name;
+                $User->email = $request->email;
+                if ($request->password != "") {
+                    $User->password = bcrypt($request->password);
+                }
+                $User->permissions_id = $request->permissions_id;
+                //}
+                if ($request->photo_delete == 1) {
+                    // Delete a User file
+                    if ($User->photo != "") {
+                        File::delete($this->getUploadPath() . $User->photo);
+                    }
+
+                    $User->photo = "";
+                }
+                if ($fileFinalName_ar != "") {
+                    // Delete a User file
+                    if ($User->photo != "") {
+                        File::delete($this->getUploadPath() . $User->photo);
+                    }
+
+                    $User->photo = $fileFinalName_ar;
                 }
 
-                $User->photo = "";
-            }
-            if ($fileFinalName_ar != "") {
-                // Delete a User file
-                if ($User->photo != "") {
-                    File::delete($this->getUploadPath() . $User->photo);
+                $User->connect_email = $request->connect_email;
+                if ($request->connect_password != "") {
+                    $User->connect_password = $request->connect_password;
                 }
 
-                $User->photo = $fileFinalName_ar;
-            }
+                $User->status = $request->status;
+                $User->updated_by = Auth::user()->id;
+                $User->save();
+                return redirect()->action('Dashboard\UsersController@edit', $id)->with('doneMessage', __('backend.saveDone'));
+            } catch (\Exception $e) {
 
-            $User->connect_email = $request->connect_email;
-            if ($request->connect_password != "") {
-                $User->connect_password = $request->connect_password;
             }
-
-            $User->status = $request->status;
-            $User->updated_by = Auth::user()->id;
-            $User->save();
-            return redirect()->action('Dashboard\UsersController@edit', $id)->with('doneMessage', __('backend.saveDone'));
-        } else {
-            return redirect()->action('Dashboard\UsersController@index');
         }
+        return redirect()->action('Dashboard\UsersController@index');
+
     }
 
     /**

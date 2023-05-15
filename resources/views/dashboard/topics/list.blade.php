@@ -95,7 +95,8 @@ if ($WebmasterSection->$title_var != "") {
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                                 {!! Form::text('date',((@$_GET['date']!="")?Helper::formatDate(@$_GET['date']):""), array('placeholder' => __('backend.topicDate'),'class' => 'form-control','id'=>'find_date')) !!}
                                                 <span class="input-group-addon">
@@ -142,8 +143,17 @@ if ($WebmasterSection->$title_var != "") {
                                             @elseif($customField->type ==9)
 
                                             @elseif($customField->type ==8)
-
-                                            @elseif($customField->type ==7 || $customField->type ==6)
+                                            @elseif($customField->type ==14)
+                                                    <div class="col-md-3 col-xs-6 m-b-5p">
+                                                        <select name="{{'customField_'.$customField->id}}"
+                                                                id="{{'customField_'.$customField->id}}"
+                                                                class="form-control c-select" {{$cf_required}}>
+                                                            <option value="">- - {!!  $cf_title !!} - -</option>
+                                                            <option value="1">{{ __('backend.yes') }}</option>
+                                                            <option value="0">{{ __('backend.no') }}</option>
+                                                        </select>
+                                                    </div>
+                                            @elseif($customField->type ==7 || $customField->type ==6 || $customField->type ==13)
                                                 <div class="col-md-3 col-xs-6 m-b-5p">
                                                     <select name="{{'customField_'.$customField->id}}"
                                                             id="{{'customField_'.$customField->id}}"
@@ -185,7 +195,8 @@ if ($WebmasterSection->$title_var != "") {
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                                             {!! Form::text('customField_'.$customField->id,(@$_GET['customField_'.$customField->id]!="")?Helper::formatDate(@$_GET['customField_'.$customField->id]):"", array('placeholder' => $cf_title,'class' => 'form-control','id'=>'customField_'.$customField->id,$cf_required=>'', 'dir'=>$cf_land_dir)) !!}
                                                             <span class="input-group-addon">
@@ -521,7 +532,7 @@ if ($WebmasterSection->$title_var != "") {
                 },
                 "dom": '<"dataTables_wrapper"<"col-sm-12 col-md-9"i><"col-sm-12 col-md-3"l><"col-sm-12 col-md-12"r><"row"t><"row b-t p-x p-t light dk"<"col-sm-12"p>>>',
                 "fnDrawCallback": function () {
-                    if ($(table_name + '_paginate .paginate_button').size() > 3) {
+                    if ($(table_name + '_paginate .paginate_button').length > 3) {
                         $(table_name + '_paginate')[0].style.display = "block";
                     } else {
                         $(table_name + '_paginate')[0].style.display = "none";

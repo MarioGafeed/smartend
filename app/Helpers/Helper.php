@@ -25,6 +25,10 @@ use GeoIP;
 
 class Helper
 {
+    static function system_version()
+    {
+        return "9.1.1";
+    }
 
     static function GeneralWebmasterSettings($var)
     {
@@ -183,7 +187,7 @@ class Helper
 
             // Check is it already saved today to visitors?
             $SavedVisitor = AnalyticsVisitor::where('ip', '=', $visitor_ip)->where('date', '=', date('Y-m-d'))->first();
-            if (empty($SavedVisitor)) {
+            if (empty($SavedVisitor) || @$SavedVisitor->country =="unknown") {
 
                 // New to analyticsVisitors
                 try {
@@ -816,11 +820,21 @@ class Helper
     {
         return WebmasterSection::find($Id);
     }
+
     static function SectionCategories($Id)
     {
         return Section::where('webmaster_id', '=', $Id)->where('father_id', '=',
             '0')->orderby('row_no', 'asc')->get();
     }
+
+    static function ParseLinks($str)
+    {
+        $target = ' target="_blank"';
+        $str = preg_replace('@((https?://)?([-\w]+\.[-\w\.]+)+\w(:\d+)?(/([-\w/_\.~]*(\?\S+)?)?)*)@', '<a href="$1" ' . $target . '>$1</a>', $str);
+        $str = preg_replace('/<a\s[^>]*href\s*=\s*"((?!https?:\/\/)[^"]*)"[^>]*>/i', '<a href="http://$1" ' . $target . '>', $str);
+        return $str;
+    }
+
 }
 
 ?>

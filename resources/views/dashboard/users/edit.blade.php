@@ -46,7 +46,7 @@
                            class="col-sm-2 form-control-label">{!!  __('backend.loginPassword') !!}
                     </label>
                     <div class="col-sm-10">
-                        {!! Form::text('password','', array('placeholder' => '','class' => 'form-control','id'=>'password')) !!}
+                        <input type="password" name="password" minlength="6" class="form-control">
                     </div>
                 </div>
 

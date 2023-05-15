@@ -49,10 +49,8 @@ if (Helper::GeneralSiteSettings("style_type")) {
     <div id="preloader"></div>
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
-            $(window).load(function () {
-                $('#preloader').fadeOut('slow', function () {
-                    // $(this).remove();
-                });
+            $('#preloader').fadeOut('slow', function () {
+                $(this).remove();
             });
         });
     </script>

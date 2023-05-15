@@ -1,4 +1,10 @@
 <style type="text/css">
+    .site-top a {
+        color: #fff !important;
+    }
+    .header-dropdown a {
+        color: #666 !important;
+    }
     a, a:hover, a:focus, a:active, footer a.text-link:hover, strike, .post-meta span a:hover, footer a.text-link,
     ul.meta-post li a:hover, ul.cat li a:hover, ul.recent li h6 a:hover, ul.portfolio-categ li.active a, ul.portfolio-categ li.active a:hover, ul.portfolio-categ li a:hover, ul.related-post li h4 a:hover, span.highlight, article .post-heading h3 a:hover,
     .navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > li > a:hover, .navbar .nav > li > a:focus, .navbar .nav > .active > a:focus {

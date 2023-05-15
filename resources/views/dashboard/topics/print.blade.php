@@ -22,6 +22,7 @@ if ($WebmasterSection->$title_var != "") {
     <div class="container" id="container">
         <table class="responsive-table center-table" style="width: 100%">
             <thead class="dker">
+            <th>#</th>
             @if($WebmasterSection->title_status)
                 <th style="text-align: {{ @Helper::currentLanguage()->left }} !important;">{{ __('backend.topicName') }}</th>
             @endif
@@ -65,6 +66,7 @@ if ($WebmasterSection->$title_var != "") {
             <tbody>
             @foreach ($Topics as $Topic)
                 <tr>
+                    <td>{!!  $Topic->id !!}</td>
                     <?php
                     if ($Topic->$title_var != "") {
                         $title = $Topic->$title_var;
@@ -116,6 +118,18 @@ if ($WebmasterSection->$title_var != "") {
                     @if ($WebmasterSection->title_status)
                         <td style="text-align: {{ @Helper::currentLanguage()->left }} !important;">{!! $photo . "<div class='h6'>" . $icon . $title . "</div>" . $section . $comments !!}</td>
                     @endif
+                    @if (@$Topic->webmasterSection->date_status)
+                        <td>{!!  Helper::formatDate($Topic->date) !!}</td>
+                    @endif
+                    @if (@$Topic->webmasterSection->expire_date_status)
+                        <td>{!! $Topic->expire_date !!}</td>
+                    @endif
+                    @if ($WebmasterSection->visits_status)
+                        <td>{!! $Topic->visits !!}</td>
+                    @endif
+                    @if ($WebmasterSection->case_status)
+                        <td>{!! (($Topic->status == 1) ? "&#10003;" : "&#10005;") !!}</td>
+                    @endif
                     <?php
                     foreach (@$Topic->webmasterSection->customFields as $customField) {
                         // check permission
@@ -156,6 +170,8 @@ if ($WebmasterSection->$title_var != "") {
                                     $cf_data = "<a target='_blank' href='" . URL::to('uploads/topics/' . $cf_saved_val) . "'><i class='fa fa-play'></i></a>";
                                 } elseif ($customField->type == 8) {
                                     $cf_data = "<a target='_blank' href='" . URL::to('uploads/topics/' . $cf_saved_val) . "'><i class='fa fa-picture-o'></i></a>";
+                                } elseif ($customField->type == 14) {
+                                    $cf_data = (($cf_saved_val == 1) ? ("&check; ". __('backend.yes')) : ("&#x2A09; ". __('backend.no')));
                                 } elseif ($customField->type == 7) {
                                     $cf_details_var = "details_" . @Helper::currentLanguage()->code;
                                     $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
@@ -172,7 +188,7 @@ if ($WebmasterSection->$title_var != "") {
                                         }
                                         $line_num++;
                                     }
-                                } elseif ($customField->type == 6) {
+                                } elseif ($customField->type == 6 || $customField->type == 13) {
                                     $cf_details_var = "details_" . @Helper::currentLanguage()->code;
                                     $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
                                     if ($customField->$cf_details_var != "") {
@@ -201,18 +217,6 @@ if ($WebmasterSection->$title_var != "") {
                         }
                     }
                     ?>
-                    @if (@$Topic->webmasterSection->date_status)
-                        <td>{!!  Helper::formatDate($Topic->date) !!}</td>
-                    @endif
-                    @if (@$Topic->webmasterSection->expire_date_status)
-                        <td>{!! $Topic->expire_date !!}</td>
-                    @endif
-                    @if ($WebmasterSection->visits_status)
-                        <td>{!! $Topic->visits !!}</td>
-                    @endif
-                    @if ($WebmasterSection->case_status)
-                        <td>{!! (($Topic->status == 1) ? "&#10003;" : "&#10005;") !!}</td>
-                    @endif
                 </tr>
             @endforeach
             </tbody>

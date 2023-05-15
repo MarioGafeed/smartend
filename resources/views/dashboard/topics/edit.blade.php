@@ -40,13 +40,15 @@ if ($WebmasterSection->$title_var != "") {
                 <ul class="nav">
                     <li class="nav-item inline dropdown">
 
-                        <a class="nav-link" data-toggle="dropdown">
-                            <i class="material-icons md-18"></i>
+                        <a class="btn white b-a nav-link" data-toggle="dropdown">
+                            <i class="material-icons md-18">&#xe5d3;</i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-scale pull-right">
                             <a class="dropdown-item" href="{{ route('topics',$WebmasterSection->id) }}"><i
                                     class="material-icons">&#xe31b;</i> {{ __('backend.back') }}</a>
-                            <a class="dropdown-item text-info" href="{{ ((@$Topics->webmasterSection->type == 4 || @$Topics->webmasterSection->type == 6) ? route("topicView", ["webmasterId" => @$Topics->webmasterSection->id, "id" => $Topics->id]) : Helper::topicURL($Topics->id)) }}" {!! ((@$Topic->webmasterSection->type == 4 || @$Topic->webmasterSection->type == 6) ? "" : "target='_blank'") !!}><i class="material-icons">&#xe8f4;</i> {{ __('backend.preview') }}</a>
+                            <a class="dropdown-item text-info"
+                               href="{{ ((@$Topics->webmasterSection->type == 4 || @$Topics->webmasterSection->type == 6) ? route("topicView", ["webmasterId" => @$Topics->webmasterSection->id, "id" => $Topics->id]) : Helper::topicURL($Topics->id)) }}" {!! ((@$Topic->webmasterSection->type == 4 || @$Topic->webmasterSection->type == 6) ? "" : "target='_blank'") !!}><i
+                                    class="material-icons">&#xe8f4;</i> {{ __('backend.preview') }}</a>
                             <div class="dropdown-divider"></div>
                             @if (@Auth::user()->permissionsGroup->delete_status)
                                 <a class="dropdown-item text-danger" onclick="DeleteTopic('{{ $Topics->id }}')"><i
@@ -237,7 +239,8 @@ if ($WebmasterSection->$title_var != "") {
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                             {!! Form::text('date',Helper::formatDate($Topics->date), array('placeholder' => '','class' => 'form-control','id'=>'date','required'=>'')) !!}
                                             <span class="input-group-addon">
@@ -272,7 +275,8 @@ if ($WebmasterSection->$title_var != "") {
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                             {!! Form::text('expire_date',Helper::formatDate($Topics->expire_date), array('placeholder' => '','class' => 'form-control','id'=>'expire_date')) !!}
                                             <span class="input-group-addon">
@@ -357,9 +361,22 @@ if ($WebmasterSection->$title_var != "") {
                                 @foreach(Helper::languagesList() as $ActiveLanguage)
                                     @if($ActiveLanguage->box_status)
                                         <div class="form-group row">
-                                            <label
-                                                class="col-sm-2 form-control-label">{!!  __('backend.bannerDetails') !!} {!! @Helper::languageName($ActiveLanguage) !!}
-                                            </label>
+                                            <div class="col-sm-2">
+                                                <label
+                                                    class="form-control-label">{!!  __('backend.bannerDetails') !!}</label>
+                                                {!! @Helper::languageName($ActiveLanguage) !!}
+
+                                                <a class="btn btn-outline b-a m-y-sm  light dk w-full"
+                                                   href="{{ route("keditor",$Topics->id) }}?lang={{ @$ActiveLanguage->code }}"
+                                                   target="_blank" style="white-space: normal;">
+                                                    <i class="material-icons text-lg text-primary">&#xe434;</i><br>
+                                                    <small>{!!  __('backend.clickToUseDragAndDropEditor') !!}</small>
+                                                </a>
+                                                <br>
+                                                <small class="text-muted">
+                                                    <i class="fa fa-info-circle"></i> <small>{!!  __('backend.refreshAfterKEdit') !!}.</small>
+                                                </small>
+                                            </div>
                                             <div class="col-sm-10">
                                                 @if (Helper::GeneralWebmasterSettings("text_editor") == 2)
                                                     <div>
@@ -814,6 +831,56 @@ if ($WebmasterSection->$title_var != "") {
                                                 {!! Form::file('customField_'.$customField->id, array('class' => 'form-control','id'=>'customField_'.$customField->id,$cf_required=>'','accept'=>'image/*')) !!}
                                             </div>
                                         </div>
+                                    @elseif($customField->type ==13)
+                                        {{--Radio--}}
+                                        <div class="form-group row">
+                                            <label for="{{'customField_'.$customField->id}}"
+                                                   class="col-sm-2 form-control-label">{!!  $cf_title !!}
+                                                {!! $cf_land_identifier !!}</label>
+                                            <div class="col-sm-10">
+                                                <?php
+                                                $cf_details_var = "details_" . @Helper::currentLanguage()->code;
+                                                $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
+                                                if ($customField->$cf_details_var != "") {
+                                                    $cf_details = $customField->$cf_details_var;
+                                                } else {
+                                                    $cf_details = $customField->$cf_details_var2;
+                                                }
+                                                $cf_details_lines = preg_split('/\r\n|[\r\n]/', $cf_details);
+                                                $line_num = 1;
+                                                ?>
+                                                @foreach ($cf_details_lines as $cf_details_line)
+                                                    <div class="m-t-sm">
+                                                        <label class="md-check">
+                                                            <input type="radio" value="{{ $line_num }}"
+                                                                   name="{{'customField_'.$customField->id}}"
+                                                                   {{$cf_required}}
+                                                                   id="{{'customField_'.$customField->id}}_{{$line_num}}"
+                                                                   {{ ($cf_saved_val == $line_num) ? "checked":""  }} class="has-value">
+                                                            <i class="blue"></i>
+                                                            {{ $cf_details_line }}
+                                                        </label>
+                                                    </div>
+                                                    <?php
+                                                    $line_num++;
+                                                    ?>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @elseif($customField->type ==14)
+                                        {{--Checkbox--}}
+                                        <div class="form-group row">
+                                            <div class="col-sm-2"></div>
+                                            <div class="col-sm-10">
+                                                <label class="md-check">
+                                                    <input type="checkbox" name="{{'customField_'.$customField->id}}" {{ ($cf_saved_val == 1) ? "checked":""  }} value="1"
+                                                           id="{{'customField_'.$customField->id}}" class="has-value">
+                                                    <i class="blue"></i>
+                                                    {!!  $cf_title !!}
+                                                    {!! $cf_land_identifier !!}
+                                                </label>
+                                            </div>
+                                        </div>
                                     @elseif($customField->type ==7)
                                         {{--Multi Check--}}
                                         <div class="form-group row">
@@ -900,7 +967,8 @@ if ($WebmasterSection->$title_var != "") {
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                                         {!! Form::text('customField_'.$customField->id,Helper::formatDate($cf_saved_val)." ".date("h:i A", strtotime($cf_saved_val)), array('placeholder' => '','class' => 'form-control','id'=>'customField_'.$customField->id,$cf_required=>'', 'dir'=>$cf_land_dir)) !!}
                                                         <span class="input-group-addon">
@@ -931,7 +999,8 @@ if ($WebmasterSection->$title_var != "") {
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                                         {!! Form::text('customField_'.$customField->id,Helper::formatDate($cf_saved_val), array('placeholder' => '','class' => 'form-control','id'=>'customField_'.$customField->id,$cf_required=>'', 'dir'=>$cf_land_dir)) !!}
                                                         <span class="input-group-addon">
@@ -1191,6 +1260,7 @@ if ($WebmasterSection->$title_var != "") {
             $("#topic_delete_btn").attr("row-id", id);
             $("#delete-topic").modal("show");
         }
+
         $("#topic_delete_btn").click(function () {
             $(this).html("<img src=\"{{ asset('assets/dashboard/images/loading.gif') }}\" style=\"height: 25px\"/> {!! __('backend.yes') !!}");
             var row_id = $(this).attr('row-id');

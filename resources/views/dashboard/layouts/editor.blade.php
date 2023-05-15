@@ -7,6 +7,7 @@
             config.uiColor = '#ffffff';
             config.toolbarCanCollapse = true;
             config.filebrowserImageBrowseUrl = '/file-manager/ckeditor';
+            config.contentsCss = '{{ URL::asset('assets/frontend/css/bootstrap.min.css') }}?v={{ Helper::system_version() }}';
         };
     </script>
 @elseif(Helper::GeneralWebmasterSettings("text_editor") ==1)
@@ -14,7 +15,7 @@
     $tiny_key = Helper::GeneralWebmasterSettings("tiny_key");
     if ($tiny_key == "") {
         $tiny_key = "no-key";
-        }
+    }
     ?>
     <script src="https://cdn.tiny.cloud/1/{{ $tiny_key }}/tinymce/5/tinymce.min.js"
             referrerpolicy="origin"></script>
@@ -28,6 +29,7 @@
             imagetools_cors_hosts: ['picsum.photos'],
             menubar: 'file edit view insert format tools table help',
             toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+            content_css: "{{ URL::asset('assets/frontend/css/bootstrap.min.css') }}?v={{ Helper::system_version() }}",
             toolbar_sticky: false,
             toolbar_mode: 'sliding',
             file_picker_callback(callback, value, meta) {
@@ -47,7 +49,7 @@
         });
     </script>
     <style>
-        .tox-notification--warning{
+        .tox-notification--warning {
             display: none !important;
         }
     </style>

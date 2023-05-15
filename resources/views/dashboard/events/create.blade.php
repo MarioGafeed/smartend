@@ -62,7 +62,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                     {!! Form::text('date',Helper::formatDate(date("Y-m-d")), array('placeholder' => '','class' => 'form-control','id'=>'date')) !!}
                                     <span class="input-group-addon">
@@ -92,7 +93,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                     {!! Form::text('date_at',Helper::formatDate(date("Y-m-d"))." ".date("h:i A"), array('placeholder' => '','class' => 'form-control','id'=>'date_at')) !!}
                                     <span class="input-group-addon">
@@ -123,7 +125,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                         {!! Form::text('time_start',Helper::formatDate(date("Y-m-d"))." ".date("h:i A"), array('placeholder' => '','class' => 'form-control','id'=>'time_start')) !!}
                                         <span class="input-group-addon">
@@ -152,7 +155,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                         {!! Form::text('time_end',Helper::formatDate(date("Y-m-d"))." ".date("h:i A"), array('placeholder' => '','class' => 'form-control','id'=>'time_end')) !!}
                                         <span class="input-group-addon">
@@ -184,7 +188,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                         {!! Form::text('date_start',Helper::formatDate(date("Y-m-d")), array('placeholder' => '','class' => 'form-control','id'=>'date_start')) !!}
                                         <span class="input-group-addon">
@@ -213,7 +218,8 @@
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                         {!! Form::text('date_end',Helper::formatDate(date("Y-m-d")), array('placeholder' => '','class' => 'form-control','id'=>'date_end')) !!}
                                         <span class="input-group-addon">

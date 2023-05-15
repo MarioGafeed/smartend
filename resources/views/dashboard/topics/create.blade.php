@@ -67,7 +67,8 @@ if ($WebmasterSection->$title_var != "") {
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true,
               }">
                                     {!! Form::text('date',Helper::formatDate(date("Y-m-d")), array('placeholder' => '','class' => 'form-control','id'=>'date','required'=>'')) !!}
                                     <span class="input-group-addon">
@@ -101,7 +102,8 @@ if ($WebmasterSection->$title_var != "") {
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true
               }">
                                     {!! Form::text('expire_date','', array('placeholder' => '','class' => 'form-control','id'=>'expire_date')) !!}
                                     <span class="input-group-addon">
@@ -173,7 +175,20 @@ if ($WebmasterSection->$title_var != "") {
                 @if($WebmasterSection->longtext_status)
 
                     @if($WebmasterSection->editor_status)
-
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-10">
+                                <div class="alert alert-warning m-b-0">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <i class="fa fa-info-circle"></i> {!!  __('backend.savePageToUseDragAndDropEditor') !!}
+                                    &nbsp;
+                                    <button type="submit" class="btn btn-xs btn-warning"><i
+                                            class="fa fa-save"></i> {!! __('backend.save') !!}</button>
+                                </div>
+                            </div>
+                        </div>
                         @foreach(Helper::languagesList() as $ActiveLanguage)
                             @if($ActiveLanguage->box_status)
                                 <div class="form-group row">
@@ -457,6 +472,55 @@ if ($WebmasterSection->$title_var != "") {
                                         {!! Form::file('customField_'.$customField->id, array('class' => 'form-control','id'=>'customField_'.$customField->id,$cf_required=>'','accept'=>'image/*')) !!}
                                     </div>
                                 </div>
+                            @elseif($customField->type ==13)
+                                {{--Radio--}}
+                                <div class="form-group row">
+                                    <label for="{{'customField_'.$customField->id}}"
+                                           class="col-sm-2 form-control-label">{!!  $cf_title !!}
+                                        {!! $cf_land_identifier !!}</label>
+                                    <div class="col-sm-10">
+                                        <?php
+                                        $cf_details_var = "details_" . @Helper::currentLanguage()->code;
+                                        $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
+                                        if ($customField->$cf_details_var != "") {
+                                            $cf_details = $customField->$cf_details_var;
+                                        } else {
+                                            $cf_details = $customField->$cf_details_var2;
+                                        }
+                                        $cf_details_lines = preg_split('/\r\n|[\r\n]/', $cf_details);
+                                        $line_num = 1;
+                                        ?>
+                                        @foreach ($cf_details_lines as $cf_details_line)
+                                            <div class="m-t-sm">
+                                                <label class="md-check">
+                                                    <input type="radio" value="{{ $line_num }}"
+                                                           name="{{'customField_'.$customField->id}}" {{$cf_required}}
+                                                           id="{{'customField_'.$customField->id}}_{{$line_num}}"
+                                                           {{ ($customField->default_value == $line_num) ? "checked":""  }} class="has-value">
+                                                    <i class="blue"></i>
+                                                    {{ $cf_details_line }}
+                                                </label>
+                                            </div>
+                                            <?php
+                                            $line_num++;
+                                            ?>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @elseif($customField->type ==14)
+                                {{--Checkbox--}}
+                                <div class="form-group row">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-10">
+                                        <label class="md-check">
+                                            <input type="checkbox" name="{{'customField_'.$customField->id}}"  value="1"
+                                                   id="{{'customField_'.$customField->id}}" class="has-value">
+                                            <i class="blue"></i>
+                                            {!!  $cf_title !!}
+                                            {!! $cf_land_identifier !!}
+                                        </label>
+                                    </div>
+                                </div>
                             @elseif($customField->type ==7)
                                 {{--Multi Check--}}
                                 <div class="form-group row">
@@ -543,7 +607,8 @@ if ($WebmasterSection->$title_var != "") {
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true
               }">
                                                 {!! Form::text('customField_'.$customField->id,Helper::formatDate($customField->default_value)." ".date("h:i A", strtotime($customField->default_value)), array('placeholder' => '','class' => 'form-control','id'=>'customField_'.$customField->id,$cf_required=>'', 'dir'=>$cf_land_dir)) !!}
                                                 <span class="input-group-addon">
@@ -574,7 +639,8 @@ if ($WebmasterSection->$title_var != "") {
                   today: 'fa fa-screenshot',
                   clear: 'fa fa-trash',
                   close: 'fa fa-remove'
-                }
+                },
+            allowInputToggle: true
               }">
                                                 {!! Form::text('customField_'.$customField->id,Helper::formatDate($customField->default_value), array('placeholder' => '','class' => 'form-control','id'=>'customField_'.$customField->id,$cf_required=>'', 'dir'=>$cf_land_dir)) !!}
                                                 <span class="input-group-addon">
@@ -652,6 +718,29 @@ if ($WebmasterSection->$title_var != "") {
                             </select>
                         </div>
                     </div>
+                @endif
+                @if(@Auth::user()->permissionsGroup->active_status)
+                    @if($WebmasterSection->case_status)
+                        <div class="form-group row">
+                            <label for="link_status"
+                                   class="col-sm-2 form-control-label">{!!  __('backend.status') !!}</label>
+                            <div class="col-sm-10">
+                                <div class="radio">
+                                    <label class="ui-check ui-check-md">
+                                        {!! Form::radio('status','1',true, array('id' => 'status1','class'=>'has-value')) !!}
+                                        <i class="dark-white"></i>
+                                        {{ __('backend.active') }}
+                                    </label>
+                                    &nbsp; &nbsp;
+                                    <label class="ui-check ui-check-md">
+                                        {!! Form::radio('status','0',false, array('id' => 'status2','class'=>'has-value')) !!}
+                                        <i class="dark-white"></i>
+                                        {{ __('backend.notActive') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 @endif
                 <div class="form-group row m-t-md">
                     <div class="offset-sm-2 col-sm-10">

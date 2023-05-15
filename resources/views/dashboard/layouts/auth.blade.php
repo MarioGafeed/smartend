@@ -3,7 +3,7 @@
 <head>
     @include('dashboard.layouts.head')
 </head>
-<body>
+<body class="auth_app_bg">
 <div class="app auth_app" id="app">
     @yield('content')
 </div>

@@ -598,7 +598,7 @@
             }
         });
         $("input:radio[name=type]").click(function () {
-            if ($(this).val() == 6 || $(this).val() == 7) {
+            if ($(this).val() == 6 || $(this).val() == 7 || $(this).val() == 13) {
                 $("#options").css("display", "inline");
                 $(".in_statics_div").show();
             } else {

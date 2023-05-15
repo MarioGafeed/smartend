@@ -239,14 +239,20 @@ class EventsController extends Controller
         //
         $Event = Event::find($id);
         if (!empty($Event)) {
-            if ($Event->type == 0) {
+            if ($Event->type == 0 && $request->ended_on != "") {
                 $Event->type = 3;
-            }
-            if ($request->started_on != "") {
-                $Event->start_date = date("Y-m-d H:i:s", strtotime($request->started_on));
             }
             if ($request->ended_on != "") {
                 $Event->end_date = date("Y-m-d", strtotime($request->ended_on));
+            } else {
+                if ($Event->end_date != "") {
+                    $dif = strtotime($request->started_on) - strtotime($Event->start_date);
+                    $n = strtotime($Event->end_date) + $dif;
+                    $Event->end_date = date("Y-m-d", $n);
+                }
+            }
+            if ($request->started_on != "") {
+                $Event->start_date = date("Y-m-d H:i:s", strtotime($request->started_on));
             }
             $Event->updated_by = Auth::user()->id;
             $Event->save();

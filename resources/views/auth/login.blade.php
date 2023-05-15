@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.auth')
 @section('title', __('backend.signedInToControl'))
 @section('content')
-    <div class="center-block w-xxl p-t-3">
+    <div class="center-block w-xxl p-a-2">
         <div class="p-a-md box-color r box-shadow-z4 text-color m-b-0">
             <div class="text-center">
                 @if(Helper::GeneralSiteSettings("style_logo_" . @Helper::currentLanguage()->code) !="")
@@ -14,7 +14,7 @@
             <div class="m-y text-muted text-center">
                 {{ __('backend.signedInToControl') }}
             </div>
-            <form name="form" method="POST" action="{{ url('/'.env('BACKEND_PATH').'/login') }}">
+            <form name="form" method="POST" action="{{ url('/'.env('BACKEND_PATH').'/login') }}" onsubmit="document.getElementById('login_form_submit').disabled = true; return true;">
                 {{ csrf_field() }}
                 @if($errors ->any())
                     <div class="alert alert-danger m-b-0">
@@ -46,7 +46,7 @@
                             class="primary"></i> {{ __('backend.keepMeSignedIn') }}
                     </label>
                 </div>
-                <button type="submit" class="btn primary btn-block p-x-md m-b">{{ __('backend.signIn') }}</button>
+                <button type="submit" id="login_form_submit" class="btn primary btn-block p-x-md m-b">{{ __('backend.signIn') }}</button>
             </form>
             @if(env("FACEBOOK_STATUS") && env("FACEBOOK_ID") && env("FACEBOOK_SECRET"))
                 <a href="{{ route('social.oauth', 'facebook') }}" class="btn btn-primary btn-block text-left">

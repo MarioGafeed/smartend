@@ -19,7 +19,7 @@
 <script src="{{ asset('assets/dashboard/js/scripts/config.lazyload.js') }}" defer></script>
 
 <script src="{{ asset('assets/dashboard/js/scripts/palette.js') }}" defer></script>
-<script src="{{ asset('assets/dashboard/js/scripts/ui-load.js') }}" defer></script>
+<script src="{{ asset('assets/dashboard/js/scripts/ui-load.js') }}?v={{ Helper::system_version() }}" defer></script>
 <script src="{{ asset('assets/dashboard/js/scripts/ui-jp.js') }}" defer></script>
 <script src="{{ asset('assets/dashboard/js/scripts/ui-include.js') }}" defer></script>
 <script src="{{ asset('assets/dashboard/js/scripts/ui-device.js') }}" defer></script>
@@ -30,7 +30,7 @@
 <script src="{{ asset('assets/dashboard/js/scripts/ui-toggle-class.js') }}" defer></script>
 
 
-<script src="{{ asset('assets/dashboard/js/scripts/app.js') }}" defer></script>
+<script src="{{ asset('assets/dashboard/js/scripts/app.js') }}?v={{ Helper::system_version() }}" defer></script>
 
 {!! Helper::SaveVisitorInfo("Dashboard &raquo; ".trim($__env->yieldContent('title'))) !!}
 @stack('after-scripts')

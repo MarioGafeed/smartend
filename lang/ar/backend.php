@@ -649,4 +649,11 @@ return array(
     'preview' => 'معاينة',
     'back' => 'عودة للخلف',
 
+    // v9.1
+    'clickToUseDragAndDropEditor' => 'إستخدم محرر السحب والإلقاء',
+    'savePageToUseDragAndDropEditor' => 'قم بإضافة وحفظ الصفحة أولا إذا أردت إستخدام محرر السحب والإلقاء لتنسيق المحتوى',
+    'customFieldsType13' => 'إختيار من متعدد ( Radio )',
+    'customFieldsType14' => 'اختيار Checkbox',
+    'refreshAfterKEdit' => 'ستكون بحاجة لتحديث هذه الصفحة في حالة تم التعديل عن طريق محرر السحب والإلقاء',
+
 );

@@ -30,7 +30,7 @@ class HomeController extends Controller
     {
         // check if script not installed yet.
         // check for installation
-        if (!File::exists('../storage/installed')) {
+        if (!File::exists('core/storage/installed')) {
             Redirect::to('/install')->send();
         }
 
@@ -1288,6 +1288,8 @@ class HomeController extends Controller
                                 $request->file($field_value_var)->move($uploadPath, $uploadedFileFinalName);
                                 $field_value = $uploadedFileFinalName;
                             }
+                        } elseif ($customField->type == 14) {
+                            $field_value = ($request->$field_value_var == 1) ? 1 : 0;
                         } elseif ($customField->type == 5) {
                             if ($request->$field_value_var != "") {
                                 $field_value = Helper::dateForDB($request->$field_value_var, 1);
@@ -1445,5 +1447,25 @@ class HomeController extends Controller
         } catch (\Exception $e) {
 
         }
+    }
+
+    public function error_404()
+    {
+        $WebmasterSettings = WebmasterSetting::find(1);
+        // Get Latest News
+        $LatestNews = $this->latest_topics($WebmasterSettings->latest_news_section_id);
+
+
+        $PageTitle = "404";
+        $PageDescription =  __('backend.notFound');
+        $PageKeywords = "404";
+
+        return view('errors.404',
+            compact(
+                "WebmasterSettings",
+                "LatestNews",
+                "PageTitle",
+                "PageDescription",
+                "PageKeywords"));
     }
 }

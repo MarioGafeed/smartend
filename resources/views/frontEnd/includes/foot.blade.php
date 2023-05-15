@@ -3,26 +3,26 @@
 <script type="text/javascript">
     var page_dir = "{{ @Helper::currentLanguage()->direction }}";
 </script>
-<script src="{{ URL::asset('assets/frontend/js/jquery.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/jquery.easing.1.3.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/bootstrap.min.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/jquery.fancybox.pack.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/jquery.fancybox-media.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/google-code-prettify/prettify.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/portfolio/jquery.quicksand.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/portfolio/setting.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/jquery.flexslider.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/animate.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/custom.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/owl-carousel/owl.carousel.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/Chart.min.js') }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/jquery.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/jquery.easing.1.3.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/bootstrap.min.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/jquery.fancybox.pack.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/jquery.fancybox-media.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/google-code-prettify/prettify.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/portfolio/jquery.quicksand.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/portfolio/setting.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/jquery.flexslider.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/animate.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/custom.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/owl-carousel/owl.carousel.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/Chart.min.js') }}?v={{ Helper::system_version() }}"></script>
 
-<script src="{{ URL::asset('assets/frontend/js/bootstrap-select.js') }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/bootstrap-select.js') }}?v={{ Helper::system_version() }}"></script>
 
-<script src="{{ URL::asset('assets/frontend/js/i18n/defaults.min.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/select2.min.js') }}"></script>
-<script src="{{ URL::asset('assets/frontend/js/moment.js') }}"></script>
-<script src="{{ URL::asset('/assets/dashboard/js/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/i18n/defaults.min.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/select2.min.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('assets/frontend/js/moment.js') }}?v={{ Helper::system_version() }}"></script>
+<script src="{{ URL::asset('/assets/dashboard/js/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}?v={{ Helper::system_version() }}"></script>
 
 <script>
     $(".select2").select2();
@@ -42,7 +42,8 @@
                 today: 'fa fa-screenshot',
                 clear: 'fa fa-trash',
                 close: 'fa fa-remove'
-            }
+            },
+            allowInputToggle: true
         });
         $('.dateTime').datetimepicker({
             format: 'YYYY-MM-DD hh:mm A',
@@ -56,7 +57,8 @@
                 today: 'fa fa-screenshot',
                 clear: 'fa fa-trash',
                 close: 'fa fa-remove'
-            }
+            },
+            allowInputToggle: true
         });
     });
 </script>
@@ -153,21 +155,21 @@
 @endif
 
 {{-- Google Tags and google analytics --}}
-@if($WebmasterSettings->google_tags_status && $WebmasterSettings->google_tags_id !="")
+@if(@$WebmasterSettings->google_tags_status && @$WebmasterSettings->google_tags_id !="")
     <!-- Google Tag Manager (noscript) -->
     <noscript>
-        <iframe src="//www.googletagmanager.com/ns.html?id={!! $WebmasterSettings->google_tags_id !!}"
+        <iframe src="//www.googletagmanager.com/ns.html?id={!! @$WebmasterSettings->google_tags_id !!}"
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
 @endif
-@if($WebmasterSettings->google_analytics_code !="")
-    {!! $WebmasterSettings->google_analytics_code !!}
+@if(@$WebmasterSettings->google_analytics_code !="")
+    {!! @$WebmasterSettings->google_analytics_code !!}
 @endif
 
 
 <?php
-if ($PageTitle == "") {
+if (@$PageTitle == "") {
     $PageTitle = Helper::GeneralSiteSettings("site_title_" . @Helper::currentLanguage()->code);
 }
 ?>

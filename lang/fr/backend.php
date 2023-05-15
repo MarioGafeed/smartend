@@ -648,4 +648,11 @@ return array(
     'textEditorDetails' => 'Choose the Text Editor you are preferred for page details editing',
     'preview' => 'Preview',
     'back' => 'Back',
+
+    // v9.1
+    'clickToUseDragAndDropEditor' => 'Use drag & drop editor',
+    'savePageToUseDragAndDropEditor' => 'Save page first if you want to use the drag & drop editor to format page contents',
+    'customFieldsType13' => 'Select ( Radio )',
+    'customFieldsType14' => 'Checkbox',
+    'refreshAfterKEdit' => 'You will need to refresh this page after updating via drag & drop editor',
 );

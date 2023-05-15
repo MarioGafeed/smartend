@@ -315,12 +315,22 @@
                                                                 {!!  $cf_title !!} :
                                                             </div>
                                                             <div class="col-lg-9">
-                                                                <a href="{{ URL::to('uploads/topics/'.$cf_saved_val) }}"
-                                                                   target="_blank">
-                                                                <span class="badge">
-                                                                    {!! Helper::GetIcon(URL::to('uploads/topics/'),$cf_saved_val) !!}
-                                                                    {!! $cf_saved_val !!}</span>
-                                                                </a>
+                                                                @php($ext = pathinfo($cf_saved_val, PATHINFO_EXTENSION))
+                                                                @if($ext=="mp3" || $ext=="wav")
+                                                                    <audio controls>
+                                                                        <source
+                                                                            src="{{ URL::to('uploads/topics/'.$cf_saved_val) }}"
+                                                                            type="audio/mpeg">
+                                                                        Your browser does not support the audio element.
+                                                                    </audio>
+                                                                @else
+                                                                    <a href="{{ URL::to('uploads/topics/'.$cf_saved_val) }}"
+                                                                       target="_blank">
+<span class="badge">
+    {!! Helper::GetIcon(URL::to('uploads/topics/'),$cf_saved_val) !!}
+    {!! $cf_saved_val !!}</span>
+                                                                    </a>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     @elseif($customField->type ==8)
@@ -366,7 +376,14 @@
                                                                 @endforeach
                                                             </div>
                                                         </div>
-                                                    @elseif($customField->type ==6)
+                                                    @elseif($customField->type ==14)
+                                                        {{--Checkbox--}}
+                                                        <div class="row field-row">
+                                                            <div class="col-lg-12">
+                                                                {!! (($cf_saved_val == 1) ? "&check;" : "&bigotimes;"); !!} {!!  $cf_title !!} {!! "(".(($cf_saved_val == 1) ? __('backend.yes') : __('backend.no')).")" !!}
+                                                            </div>
+                                                        </div>
+                                                    @elseif($customField->type ==6 || $customField->type ==13)
                                                         {{--Select--}}
                                                         <div class="row field-row">
                                                             <div class="col-lg-3">
@@ -441,7 +458,7 @@
                                                                 {!!  $cf_title !!} :
                                                             </div>
                                                             <div class="col-lg-9">
-                                                                {!! nl2br($cf_saved_val) !!}
+                                                                {!! Helper::ParseLinks(nl2br($cf_saved_val)) !!}
                                                             </div>
                                                         </div>
                                                     @else
@@ -451,7 +468,7 @@
                                                                 {!!  $cf_title !!} :
                                                             </div>
                                                             <div class="col-lg-9">
-                                                                {!! $cf_saved_val !!}
+                                                                {!! Helper::ParseLinks($cf_saved_val) !!}
                                                             </div>
                                                         </div>
                                                     @endif

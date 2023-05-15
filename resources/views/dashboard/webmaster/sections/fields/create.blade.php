@@ -72,9 +72,23 @@
                     </div>
                     <div style="margin-bottom: 5px;">
                         <label class="ui-check ui-check-md">
+                            {!! Form::radio('type','13',false, array('id' => 'type13','class'=>'has-value')) !!}
+                            <i class="dark-white"></i>
+                            {{ __('backend.customFieldsType13') }}
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <label class="ui-check ui-check-md">
                             {!! Form::radio('type','7',false, array('id' => 'type7','class'=>'has-value')) !!}
                             <i class="dark-white"></i>
                             {{ __('backend.customFieldsType7') }}
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <label class="ui-check ui-check-md">
+                            {!! Form::radio('type','14',false, array('id' => 'type14','class'=>'has-value')) !!}
+                            <i class="dark-white"></i>
+                            {{ __('backend.customFieldsType14') }}
                         </label>
                     </div>
                     <div style="margin-bottom: 5px;">

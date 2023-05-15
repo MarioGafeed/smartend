@@ -31,9 +31,7 @@ Route::get('/403', function () {
 
 
 // Not Found
-Route::get('/404', function () {
-    return view('errors.404');
-})->name('NotFound');
+Route::get('/404', [HomeController::class, 'error_404'])->name('NotFound');
 
 // Backend Routes
 Route::get('/login', function () {

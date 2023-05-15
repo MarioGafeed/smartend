@@ -204,6 +204,9 @@
                                             } elseif ($customField->type == 8) {
                                                 $cf_data = "<a target='_blank' href='" . URL::to('uploads/topics/' . $cf_saved_val) . "'><i class='fa fa-picture-o'></i></a>";
 
+                                            } elseif ($customField->type == 14) {
+                                                $cf_data = (($cf_saved_val == 1) ? "&check;" : "&bigotimes;")."  "." (".(($cf_saved_val == 1) ? __('backend.yes') : __('backend.no')).")";
+
                                             } elseif ($customField->type == 7) {
                                                 $cf_details_var = "details_" . @Helper::currentLanguage()->code;
                                                 $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
@@ -220,7 +223,7 @@
                                                     }
                                                     $line_num++;
                                                 }
-                                            } elseif ($customField->type == 6) {
+                                            } elseif ($customField->type == 6 || $customField->type == 13) {
                                                 $cf_details_var = "details_" . @Helper::currentLanguage()->code;
                                                 $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
                                                 if ($customField->$cf_details_var != "") {

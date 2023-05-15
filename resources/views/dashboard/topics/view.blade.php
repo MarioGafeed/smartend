@@ -273,12 +273,22 @@ if ($WebmasterSection->$title_var != "") {
                                                         <strong>{!!  $cf_title !!} :</strong>
                                                     </div>
                                                     <div class="col-sm-10">
-                                                        <a href="{{ URL::to('uploads/topics/'.$cf_saved_val) }}"
-                                                           target="_blank">
-                                                                <span class="badge">
-                                                                    {!! Helper::GetIcon(URL::to('uploads/topics/'),$cf_saved_val) !!}
-                                                                    {!! $cf_saved_val !!}</span>
-                                                        </a>
+                                                        @php($ext = pathinfo($cf_saved_val, PATHINFO_EXTENSION))
+                                                        @if($ext=="mp3" || $ext=="wav")
+                                                            <audio controls>
+                                                                <source
+                                                                    src="{{ URL::to('uploads/topics/'.$cf_saved_val) }}"
+                                                                    type="audio/mpeg">
+                                                                Your browser does not support the audio element.
+                                                            </audio>
+                                                        @else
+                                                            <a href="{{ URL::to('uploads/topics/'.$cf_saved_val) }}"
+                                                               target="_blank">
+<span class="badge label">
+    {!! Helper::GetIcon(URL::to('uploads/topics/'),$cf_saved_val) !!}
+    {!! $cf_saved_val !!}</span>
+                                                            </a>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             @elseif($customField->type ==8)
@@ -293,132 +303,139 @@ if ($WebmasterSection->$title_var != "") {
                                                              title="{{ $cf_title }} - {{ $title }}">
                                                     </div>
                                                 </div>
-                                            @elseif($customField->type ==7)
-                                                {{--Multi Check--}}
+                                            @elseif($customField->type ==14)
+                                                {{--Photo File--}}
                                                 <div class="row field-row {!! $customField->css_class !!}">
-                                                    <div class="col-sm-2">
-                                                        <strong>{!!  $cf_title !!} :</strong>
+                                                    <div class="col-sm-12">
+                                                        <i class="fa  inline {{ (($cf_saved_val == 1) ? "fa-check text-success" : "fa-times text-danger") }}"></i> {{ (($cf_saved_val == 1) ? __('backend.yes') : __('backend.no')) }}
                                                     </div>
-                                                    <div class="col-sm-10">
-                                                        <?php
-                                                        $cf_details_var = "details_" . @Helper::currentLanguage()->code;
-                                                        $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
-                                                        if ($customField->$cf_details_var != "") {
-                                                            $cf_details = $customField->$cf_details_var;
-                                                        } else {
-                                                            $cf_details = $customField->$cf_details_var2;
-                                                        }
-                                                        $cf_details_lines = preg_split('/\r\n|[\r\n]/', $cf_details);
-                                                        $line_num = 1;
-                                                        ?>
-                                                        @foreach ($cf_details_lines as $cf_details_line)
-                                                            @if (in_array($line_num,$cf_saved_val_array))
-                                                                <span class="badge">
+                                                </div>
+                            </div>
+                            @elseif($customField->type ==7)
+                                {{--Multi Check--}}
+                                <div class="row field-row {!! $customField->css_class !!}">
+                                    <div class="col-sm-2">
+                                        <strong>{!!  $cf_title !!} :</strong>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <?php
+                                        $cf_details_var = "details_" . @Helper::currentLanguage()->code;
+                                        $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
+                                        if ($customField->$cf_details_var != "") {
+                                            $cf_details = $customField->$cf_details_var;
+                                        } else {
+                                            $cf_details = $customField->$cf_details_var2;
+                                        }
+                                        $cf_details_lines = preg_split('/\r\n|[\r\n]/', $cf_details);
+                                        $line_num = 1;
+                                        ?>
+                                        @foreach ($cf_details_lines as $cf_details_line)
+                                            @if (in_array($line_num,$cf_saved_val_array))
+                                                <span class="badge label">
                                                             {!! $cf_details_line !!}
                                                         </span>
-                                                            @endif
-                                                            <?php
-                                                            $line_num++;
-                                                            ?>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            @elseif($customField->type ==6)
-                                                {{--Select--}}
-                                                <div class="row field-row {!! $customField->css_class !!}">
-                                                    <div class="col-sm-2">
-                                                        <strong>{!!  $cf_title !!} :</strong>
-                                                    </div>
-                                                    <div class="col-sm-10">
-                                                        <?php
-                                                        $cf_details_var = "details_" . @Helper::currentLanguage()->code;
-                                                        $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
-                                                        if ($customField->$cf_details_var != "") {
-                                                            $cf_details = $customField->$cf_details_var;
-                                                        } else {
-                                                            $cf_details = $customField->$cf_details_var2;
-                                                        }
-                                                        $cf_details_lines = preg_split('/\r\n|[\r\n]/', $cf_details);
-                                                        $line_num = 1;
-                                                        ?>
-                                                        @foreach ($cf_details_lines as $cf_details_line)
-                                                            @if ($line_num == $cf_saved_val)
-                                                                {!! $cf_details_line !!}
-                                                            @endif
-                                                            <?php
-                                                            $line_num++;
-                                                            ?>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            @elseif($customField->type ==5)
-                                                {{--Date & Time--}}
-                                                <div class="row field-row {!! $customField->css_class !!}">
-                                                    <div class="col-sm-2">
-                                                        <strong>{!!  $cf_title !!} :</strong>
-                                                    </div>
-                                                    <div class="col-sm-10">
-                                                        {!! Helper::formatDate($cf_saved_val)." ".date("h:i A", strtotime($cf_saved_val)) !!}
-                                                    </div>
-                                                </div>
-                                            @elseif($customField->type ==4)
-                                                {{--Date--}}
-                                                <div class="row field-row {!! $customField->css_class !!}">
-                                                    <div class="col-sm-2">
-                                                        <strong>{!!  $cf_title !!} :</strong>
-                                                    </div>
-                                                    <div class="col-sm-10">
-                                                        {!! Helper::formatDate($cf_saved_val) !!}
-                                                    </div>
-                                                </div>
-                                            @elseif($customField->type ==3)
-                                                {{--Email Address--}}
-                                                <div class="row field-row {!! $customField->css_class !!}">
-                                                    <div class="col-sm-2">
-                                                        <strong>{!!  $cf_title !!} :</strong>
-                                                    </div>
-                                                    <div class="col-sm-10">
-                                                        {!! $cf_saved_val !!}
-                                                    </div>
-                                                </div>
-                                            @elseif($customField->type ==2)
-                                                {{--Number--}}
-                                                <div class="row field-row {!! $customField->css_class !!}">
-                                                    <div class="col-sm-2">
-                                                        <strong>{!!  $cf_title !!} :</strong>
-                                                    </div>
-                                                    <div class="col-sm-10">
-                                                        {!! $cf_saved_val !!}
-                                                    </div>
-                                                </div>
-                                            @elseif($customField->type ==1)
-                                                {{--Text Area--}}
-                                                <div class="row field-row {!! $customField->css_class !!}">
-                                                    <div class="col-sm-2">
-                                                        <strong>{!!  $cf_title !!} :</strong>
-                                                    </div>
-                                                    <div class="col-sm-10">
-                                                        {!! nl2br($cf_saved_val) !!}
-                                                    </div>
-                                                </div>
-                                            @else
-                                                {{--Text Box--}}
-                                                <div class="row field-row {!! $customField->css_class !!}">
-                                                    <div class="col-sm-2">
-                                                        <strong>{!!  $cf_title !!} :</strong>
-                                                    </div>
-                                                    <div class="col-sm-10">
-                                                        {!! $cf_saved_val !!}
-                                                    </div>
-                                                </div>
                                             @endif
-                                        @endif
-                                    @endif
-                                    <?php
-                                    }
-                                    ?>
-                                @endforeach
-                            </div>
+                                            <?php
+                                            $line_num++;
+                                            ?>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @elseif($customField->type ==6 || $customField->type ==13)
+                                {{--Select--}}
+                                <div class="row field-row {!! $customField->css_class !!}">
+                                    <div class="col-sm-2">
+                                        <strong>{!!  $cf_title !!} :</strong>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <?php
+                                        $cf_details_var = "details_" . @Helper::currentLanguage()->code;
+                                        $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
+                                        if ($customField->$cf_details_var != "") {
+                                            $cf_details = $customField->$cf_details_var;
+                                        } else {
+                                            $cf_details = $customField->$cf_details_var2;
+                                        }
+                                        $cf_details_lines = preg_split('/\r\n|[\r\n]/', $cf_details);
+                                        $line_num = 1;
+                                        ?>
+                                        @foreach ($cf_details_lines as $cf_details_line)
+                                            @if ($line_num == $cf_saved_val)
+                                                {!! $cf_details_line !!}
+                                            @endif
+                                            <?php
+                                            $line_num++;
+                                            ?>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @elseif($customField->type ==5)
+                                {{--Date & Time--}}
+                                <div class="row field-row {!! $customField->css_class !!}">
+                                    <div class="col-sm-2">
+                                        <strong>{!!  $cf_title !!} :</strong>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        {!! Helper::formatDate($cf_saved_val)." ".date("h:i A", strtotime($cf_saved_val)) !!}
+                                    </div>
+                                </div>
+                            @elseif($customField->type ==4)
+                                {{--Date--}}
+                                <div class="row field-row {!! $customField->css_class !!}">
+                                    <div class="col-sm-2">
+                                        <strong>{!!  $cf_title !!} :</strong>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        {!! Helper::formatDate($cf_saved_val) !!}
+                                    </div>
+                                </div>
+                            @elseif($customField->type ==3)
+                                {{--Email Address--}}
+                                <div class="row field-row {!! $customField->css_class !!}">
+                                    <div class="col-sm-2">
+                                        <strong>{!!  $cf_title !!} :</strong>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        {!! $cf_saved_val !!}
+                                    </div>
+                                </div>
+                            @elseif($customField->type ==2)
+                                {{--Number--}}
+                                <div class="row field-row {!! $customField->css_class !!}">
+                                    <div class="col-sm-2">
+                                        <strong>{!!  $cf_title !!} :</strong>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        {!! $cf_saved_val !!}
+                                    </div>
+                                </div>
+                            @elseif($customField->type ==1)
+                                {{--Text Area--}}
+                                <div class="row field-row {!! $customField->css_class !!}">
+                                    <div class="col-sm-2">
+                                        <strong>{!!  $cf_title !!} :</strong>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        {!! Helper::ParseLinks(nl2br($cf_saved_val)) !!}
+                                    </div>
+                                </div>
+                            @else
+                                {{--Text Box--}}
+                                <div class="row field-row {!! $customField->css_class !!}">
+                                    <div class="col-sm-2">
+                                        <strong>{!!  $cf_title !!} :</strong>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        {!! Helper::ParseLinks($cf_saved_val) !!}
+                                    </div>
+                                </div>
+                            @endif
+                            @endif
+                            @endif
+                            <?php
+                            }
+                            ?>
+                            @endforeach
                         </div>
                         <br>
                     @endif
@@ -426,6 +443,7 @@ if ($WebmasterSection->$title_var != "") {
 
 
                     {!! $Topic->$details !!}
+
                     @if($Topic->attach_file !="")
                         <?php
                         $file_ext = strrchr($Topic->attach_file, ".");

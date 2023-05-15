@@ -16,12 +16,16 @@ if (Helper::GeneralSiteSettings("style_footer") != 1) {
         $bx2w = 3;
         $bx3w = 3;
         $bx4w = 3;
-        if (count($LatestNews) == 0 && Helper::GeneralSiteSettings("style_subscribe") == 0) {
+        $News = [];
+        if(@$LatestNews){
+            $News = $LatestNews;
+        }
+        if (count($News) == 0 && Helper::GeneralSiteSettings("style_subscribe") == 0) {
             $bx1w = 6;
             $bx2w = 6;
             $bx3w = 6;
             $bx4w = 6;
-        } elseif (count($LatestNews) == 0 || Helper::GeneralSiteSettings("style_subscribe") == 0) {
+        } elseif (count($News) == 0 || Helper::GeneralSiteSettings("style_subscribe") == 0) {
             $bx1w = 4;
             $bx2w = 4;
             $bx3w = 4;
@@ -58,7 +62,7 @@ if (Helper::GeneralSiteSettings("style_footer") != 1) {
                         @endif
                     </div>
                 </div>
-                @if(count($LatestNews)>0)
+                @if(count($News)>0)
                     <?php
                     $footer_title_var = "title_" . @Helper::currentLanguage()->code;
                     $footer_title_var2 = "title_" . env('DEFAULT_LANGUAGE');
@@ -71,7 +75,7 @@ if (Helper::GeneralSiteSettings("style_footer") != 1) {
                                     class="fa fa-rss"></i>&nbsp; {{ __('frontend.latestNews') }}
                             </h4>
                             <ul class="link-list">
-                                @foreach($LatestNews as $LatestNew)
+                                @foreach($News as $LatestNew)
                                     <?php
                                     if ($LatestNew->$footer_title_var != "") {
                                         $LatestNew_title = $LatestNew->$footer_title_var;
@@ -195,9 +199,9 @@ if (Helper::GeneralSiteSettings("style_footer") != 1) {
                                         class="fa fa-pinterest"></i></a></li>
                         @endif
                         @if(Helper::GeneralSiteSettings('social_link8'))
-                            <li><a href="{{Helper::GeneralSiteSettings('social_link8')}}" data-placement="top" title="TikTok"
+                            <li><a href="{{Helper::GeneralSiteSettings('social_link8')}}" data-placement="top" title="Tumblr"
                                    target="_blank"><i
-                                        class="fa fa-music"></i></a></li>
+                                        class="fa fa-tumblr"></i></a></li>
                         @endif
                         @if(Helper::GeneralSiteSettings('social_link9'))
                             <li><a href="{{Helper::GeneralSiteSettings('social_link9')}}" data-placement="top" title="Snapchat"

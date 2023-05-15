@@ -213,7 +213,7 @@ class TopicsController extends Controller
 
                         if ($customField->type == 7) {
                             $topics_ids = TopicField::select("topic_id")->where("field_id", $customField->id)->whereRaw("FIND_IN_SET(" . $FField_D . ",REPLACE(`field_value`, ' ', ''))");
-                        } else if ($customField->type == 6) {
+                        } else if ($customField->type == 6 || $customField->type == 13) {
                             $topics_ids = TopicField::select("topic_id")->where("field_id", $customField->id)->where("field_value", $FField_D);
                         } else {
                             $topics_ids = TopicField::select("topic_id")->where("field_id", $customField->id)->where("field_value", 'like', '%' . $FField_D . '%');
@@ -348,7 +348,9 @@ class TopicsController extends Controller
                                         }
                                         $line_num++;
                                     }
-                                } elseif ($customField->type == 6) {
+                                } elseif ($customField->type == 14) {
+                                    $cf_data = "<div class='text-center'> <i class=\"fa " . (($cf_saved_val == 1) ? "fa-check text-success" : "fa-times text-danger") . " inline\"></i> ".(($cf_saved_val == 1) ? __('backend.yes') : __('backend.no'))."</div>";
+                                } elseif ($customField->type == 6 || $customField->type == 13) {
                                     $cf_details_var = "details_" . @Helper::currentLanguage()->code;
                                     $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
                                     if ($customField->$cf_details_var != "") {
@@ -627,8 +629,15 @@ class TopicsController extends Controller
             $Topic->visits = 0;
             $Topic->section_id = 0;
             $Topic->form_id = $request->page_form_id;
-            $Topic->status = (@Auth::user()->permissionsGroup->active_status) ? 1 : 0;
-
+            if (@Auth::user()->permissionsGroup->active_status) {
+                if ($WebmasterSection->case_status) {
+                    $Topic->status = ($request->status) ? 1 : 0;
+                } else {
+                    $Topic->status = 1;
+                }
+            } else {
+                $Topic->status = 0;
+            }
             $Topic->save();
 
             if ($request->section_id != "" && $request->section_id != 0) {
@@ -666,6 +675,8 @@ class TopicsController extends Controller
                                     $request->file($field_value_var)->move($path, $uploadedFileFinalName);
                                     $field_value = $uploadedFileFinalName;
                                 }
+                            } elseif ($customField->type == 14) {
+                                $field_value = ($request->$field_value_var == 1) ? 1 : 0;
                             } elseif ($customField->type == 5) {
                                 if ($request->$field_value_var != "") {
                                     $field_value = Helper::dateForDB($request->$field_value_var, 1);
@@ -868,7 +879,7 @@ class TopicsController extends Controller
                 $Topic->icon = $request->icon;
                 $Topic->video_type = $request->video_type;
                 if ($WebmasterSection->case_status) {
-                    $Topic->status = $request->status;
+                    $Topic->status = ($request->status) ? 1 : 0;
                 }
                 if (!@Auth::user()->permissionsGroup->active_status) {
                     $Topic->status = 0;
@@ -927,6 +938,8 @@ class TopicsController extends Controller
                                     File::delete($this->uploadPath . $request->$file_old_id);
                                     $field_value = "";
                                 }
+                            } elseif ($customField->type == 14) {
+                                $field_value = ($request->$field_value_var == 1) ? 1 : 0;
                             } elseif ($customField->type == 5) {
                                 if ($request->$field_value_var != "") {
                                     $field_value = Helper::dateForDB($request->$field_value_var, 1);
@@ -2181,5 +2194,57 @@ class TopicsController extends Controller
         } catch (\Exception $e) {
 
         }
+    }
+
+    public function keditor($topic_id)
+    {
+        $lang = \request()->input('lang');
+        if ($lang == "") {
+            $lang = @Helper::currentLanguage()->code;
+        }
+        if (@Auth::user()->permissionsGroup->view_status) {
+            $Topic = Topic::where('created_by', '=', @Auth::user()->id)->find($topic_id);
+        } else {
+            $Topic = Topic::find($topic_id);
+        }
+        if (!empty($Topic)) {
+            $title = @$Topic->{'title_' . @Helper::currentLanguage()->code};
+            $content = @$Topic->{'details_' . $lang};
+            if (!str_contains($content, 'ui-resizable')) {
+                $content = '<div class="row"><div class="col-sm-12 ui-resizable" data-type="container-content"><div data-type="component-text">' . $content . '</div></div></div>';
+            }
+            return view("dashboard.topics.keditor.edit", compact("Topic", "title", "content", "lang"));
+        } else {
+            return redirect()->route('NotFound');
+        }
+    }
+
+    public function keditor_snippets()
+    {
+        return view("dashboard.topics.keditor.snippets");
+    }
+
+    public function keditor_save(Request $request)
+    {
+        if (!@Auth::user()->permissionsGroup->edit_status) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
+        if (@Auth::user()->permissionsGroup->view_status) {
+            $Topic = Topic::where('created_by', '=', Auth::user()->id)->find($request->topic_id);
+        } else {
+            $Topic = Topic::find($request->topic_id);
+        }
+        if (!empty($Topic)) {
+            $lang = $request->lang;
+            if ($lang != "") {
+                $Topic->{"details_" . $lang} = $request->html_content;
+                $Topic->updated_by = Auth::user()->id;
+                $Topic->save();
+            }
+
+            return json_encode(array("stat" => "success", "msg" => __("backend.saveDone")));
+        }
+        return json_encode(array("stat" => "error", "msg" => __("backend.error")));
     }
 }

@@ -91,7 +91,7 @@
                                         </div>
                                         @if($TextBanner->link_url !="")
                                             <div class="box-bottom">
-                                                <a href="{!! $TextBanner->link_url !!}">{{ __('frontend.watchnow') }}</a>
+                                                <a href="{!! $TextBanner->link_url !!}">{{ __('frontend.moreDetails') }}</a>
                                             </div>
                                         @endif
 
@@ -238,7 +238,14 @@
                                                                             @endforeach
                                                                         </div>
                                                                     </div>
-                                                                @elseif($customField->type ==6)
+                                                                @elseif($customField->type ==14)
+                                                                    {{--Checkbox--}}
+                                                                    <div class="row field-row">
+                                                                        <div class="col-lg-12">
+                                                                            {!! (($cf_saved_val == 1) ? "&check;" : "&#x2A09;"); !!} {!!  $cf_title !!}
+                                                                        </div>
+                                                                    </div>
+                                                                @elseif($customField->type ==6 || $customField->type ==13)
                                                                     {{--Select--}}
                                                                     <div class="row field-row">
                                                                         <div class="col-lg-3">
@@ -315,7 +322,7 @@
                                                                             {!!  $cf_title !!} :
                                                                         </div>
                                                                         <div class="col-lg-9">
-                                                                            {!! $cf_saved_val !!}
+                                                                            {!! Helper::ParseLinks($cf_saved_val) !!}
                                                                         </div>
                                                                     </div>
                                                                 @endif
@@ -474,6 +481,16 @@
                                         if ($section_url == "") {
                                             $section_url = Helper::sectionURL($HomePartner->webmaster_id);
                                         }
+                                        $URL = "";
+                                        if (count($HomePartner->fields) > 0) {
+                                            foreach ($HomePartner->fields as $t_field) {
+                                                if ($t_field->field_value != "") {
+                                                    if (@filter_var($t_field->field_value, FILTER_VALIDATE_URL)) {
+                                                        $URL = $t_field->field_value;
+                                                    }
+                                                }
+                                            }
+                                        }
 
                                         if ($ii == 6) {
                                             echo "
@@ -488,9 +505,19 @@
                                         <li class="col-sm-2">
                                             <div>
                                                 <div class="thumbnail">
-                                                    <img src="{{ URL::to('uploads/topics/'.$HomePartner->photo_file) }}"
-                                                         data-placement="bottom" title="{{ $title }}"
-                                                         alt="{{ $title }}">
+                                                    @if($URL !="")
+                                                        <a href="{{ $URL }}" target="_blank">
+                                                            <img
+                                                                src="{{ URL::to('uploads/topics/'.$HomePartner->photo_file) }}"
+                                                                data-placement="bottom" title="{{ $title }}"
+                                                                alt="{{ $title }}">
+                                                        </a>
+                                                    @else
+                                                        <img
+                                                            src="{{ URL::to('uploads/topics/'.$HomePartner->photo_file) }}"
+                                                            data-placement="bottom" title="{{ $title }}"
+                                                            alt="{{ $title }}">
+                                                    @endif
                                                 </div>
                                             </div>
                                             <br>

@@ -1,29 +1,29 @@
 <meta charset="utf-8">
-<title>{{$PageTitle}} {{($PageTitle !="")? "|":""}} {{ Helper::GeneralSiteSettings("site_title_" . @Helper::currentLanguage()->code) }}</title>
-<meta name="description" content="{{$PageDescription}}"/>
-<meta name="keywords" content="{{$PageKeywords}}"/>
+<title>{{@$PageTitle}} {{(@$PageTitle !="")? "|":""}} {{ Helper::GeneralSiteSettings("site_title_" . @Helper::currentLanguage()->code) }}</title>
+<meta name="description" content="{{@$PageDescription}}"/>
+<meta name="keywords" content="{{@$PageKeywords}}"/>
 <meta name="author" content="{{ URL::to('') }}"/>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link href="{{ URL::asset('assets/frontend/css/bootstrap.min.css') }}" rel="stylesheet"/>
-<link href="{{ URL::asset('assets/frontend/css/fancybox/jquery.fancybox.css') }}" rel="stylesheet">
-<link href="{{ URL::asset('assets/frontend/css/jcarousel.css') }}" rel="stylesheet"/>
-<link href="{{ URL::asset('assets/frontend/css/flexslider.css') }}" rel="stylesheet"/>
+<link href="{{ URL::asset('assets/frontend/css/bootstrap.min.css') }}?v={{ Helper::system_version() }}" rel="stylesheet"/>
+<link href="{{ URL::asset('assets/frontend/css/fancybox/jquery.fancybox.css') }}?v={{ Helper::system_version() }}" rel="stylesheet">
+<link href="{{ URL::asset('assets/frontend/css/jcarousel.css') }}?v={{ Helper::system_version() }}" rel="stylesheet"/>
+<link href="{{ URL::asset('assets/frontend/css/flexslider.css') }}?v={{ Helper::system_version() }}" rel="stylesheet"/>
 
-<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/bootstrap-select.min.css') }}">
-<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/horizontal-timeline.css') }}">
-<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/select2.min.css') }}"/>
-<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/select2-bootstrap.min.css') }}"/>
-<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/bootstrap-datetimepicker.min.css') }}"/>
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/bootstrap-select.min.css') }}?v={{ Helper::system_version() }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/horizontal-timeline.css') }}?v={{ Helper::system_version() }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/select2.min.css') }}?v={{ Helper::system_version() }}"/>
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/select2-bootstrap.min.css') }}?v={{ Helper::system_version() }}"/>
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/bootstrap-datetimepicker.min.css') }}?v={{ Helper::system_version() }}"/>
 
-<link href="{{ URL::asset('assets/frontend/css/style.css') }}" rel="stylesheet"/>
-<link href="{{ URL::asset('assets/frontend/css/color.css') }}" rel="stylesheet"/>
-<link href="{{ URL::asset('assets/frontend/css/colors.css') }}" rel="stylesheet"/>
-<link rel="stylesheet" href="{{ URL::asset('assets/frontend/js/owl-carousel/assets/owl.carousel.min.css') }}">
-<link rel="stylesheet" href="{{ URL::asset('assets/frontend/js/owl-carousel/assets/owl.theme.default.min.css') }}">
+<link href="{{ URL::asset('assets/frontend/css/style.css') }}?v={{ Helper::system_version() }}" rel="stylesheet"/>
+<link href="{{ URL::asset('assets/frontend/css/color.css') }}?v={{ Helper::system_version() }}" rel="stylesheet"/>
+<link href="{{ URL::asset('assets/frontend/css/colors.css') }}?v={{ Helper::system_version() }}" rel="stylesheet"/>
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/js/owl-carousel/assets/owl.carousel.min.css') }}?v={{ Helper::system_version() }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/js/owl-carousel/assets/owl.theme.default.min.css') }}?v={{ Helper::system_version() }}">
 
 @if( @Helper::currentLanguage()->direction=="rtl")
-<link href="{{ URL::asset('assets/frontend/css/rtl.css') }}" rel="stylesheet"/>
+<link href="{{ URL::asset('assets/frontend/css/rtl.css') }}?v={{ Helper::system_version() }}" rel="stylesheet"/>
 @endif
 
 <!-- Favicon and Touch Icons -->
@@ -49,7 +49,7 @@
 @endif
 
 <meta property='og:title'
-      content='{{$PageTitle}} {{($PageTitle =="")? Helper::GeneralSiteSettings("site_title_" . trans('backLang.boxCode')):""}}'/>
+      content='{{@$PageTitle}} {{(@$PageTitle =="")? Helper::GeneralSiteSettings("site_title_" . @Helper::currentLanguage()->code):""}}'/>
 @if(@$Topic->photo_file !="")
     <meta property='og:image' content='{{ URL::asset('uploads/topics/'.@$Topic->photo_file) }}'/>
 @elseif(Helper::GeneralSiteSettings("style_apple") !="")
@@ -59,8 +59,8 @@
     <meta property='og:image'
           content='{{ URL::asset('uploads/settings/nofav.png') }}'/>
 @endif
-<meta property="og:site_name" content="{{ Helper::GeneralSiteSettings("site_title_" . trans('backLang.boxCode')) }}">
-<meta property="og:description" content="{{$PageDescription}}"/>
+<meta property="og:site_name" content="{{ Helper::GeneralSiteSettings("site_title_" . @Helper::currentLanguage()->code) }}">
+<meta property="og:description" content="{{@$PageDescription}}"/>
 <meta property="og:url" content="{{ url()->full()  }}"/>
 <meta property="og:type" content="website"/>
 
@@ -80,12 +80,12 @@
     </style>
 @endif
 {{-- Google Tags and google analytics --}}
-@if($WebmasterSettings->google_tags_status && $WebmasterSettings->google_tags_id !="")
+@if(@$WebmasterSettings->google_tags_status && @$WebmasterSettings->google_tags_id !="")
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','{!! $WebmasterSettings->google_tags_id !!}');</script>
+        })(window,document,'script','dataLayer','{!! @$WebmasterSettings->google_tags_id !!}');</script>
     <!-- End Google Tag Manager -->
 @endif

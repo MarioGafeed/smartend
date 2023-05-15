@@ -70,9 +70,23 @@
                     </div>
                     <div style="margin-bottom: 5px;">
                         <label class="ui-check ui-check-md">
+                            {!! Form::radio('type','13',(Session::get('WebmasterSectionField')->type==13) ? true : false, array('id' => 'type13','class'=>'has-value')) !!}
+                            <i class="dark-white"></i>
+                            {{ __('backend.customFieldsType13') }}
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <label class="ui-check ui-check-md">
                             {!! Form::radio('type','7',(Session::get('WebmasterSectionField')->type==7) ? true : false, array('id' => 'type7','class'=>'has-value')) !!}
                             <i class="dark-white"></i>
                             {{ __('backend.customFieldsType7') }}
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <label class="ui-check ui-check-md">
+                            {!! Form::radio('type','14',(Session::get('WebmasterSectionField')->type==14) ? true : false, array('id' => 'type14','class'=>'has-value')) !!}
+                            <i class="dark-white"></i>
+                            {{ __('backend.customFieldsType14') }}
                         </label>
                     </div>
                     <div style="margin-bottom: 5px;">
@@ -116,7 +130,7 @@
             <div class="col-sm-7">
 
                 <div id="options"
-                     style="display: {{(Session::get('WebmasterSectionField')->type==6 || Session::get('WebmasterSectionField')->type==7) ? "inline" : "none"}}">
+                     style="display: {{(Session::get('WebmasterSectionField')->type==6 || Session::get('WebmasterSectionField')->type==7 || Session::get('WebmasterSectionField')->type==13) ? "inline" : "none"}}">
                     <div class="row">
                         @foreach(Helper::languagesList() as $ActiveLanguage)
                             @if($ActiveLanguage->box_status)

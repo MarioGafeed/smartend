@@ -20,7 +20,9 @@
     ?>
     @if(!empty($WebmasterSection))
         <div class="form-block">
-            <h4><i class="fa fa-send-o"></i> {{ __('backend.submit') }} {!!  $WebmasterSection->{"title_".@Helper::currentLanguage()->code} !!}</h4>
+            <h4>
+                <i class="fa fa-send-o"></i> {{ __('backend.submit') }} {!!  $WebmasterSection->{"title_".@Helper::currentLanguage()->code} !!}
+            </h4>
             <hr>
             {{Form::open(['route'=>['formSubmit'],'method'=>'POST', 'files' => true ])}}
 
@@ -247,6 +249,54 @@
                                     {!! Form::file('customField_'.$customField->id, array('class' => 'form-control','id'=>'customField_'.$customField->id,$cf_required=>'','accept'=>'image/*')) !!}
                                 </div>
                             </div>
+                        @elseif($customField->type ==13)
+                            {{--Radio--}}
+                            <div class="form-group row">
+                                <label for="{{'customField_'.$customField->id}}"
+                                       class="col-sm-2 form-control-label">{!!  $cf_title !!}
+                                    {!! $cf_land_identifier !!}</label>
+                                <div class="col-sm-10">
+                                    <?php
+                                    $cf_details_var = "details_" . @Helper::currentLanguage()->code;
+                                    $cf_details_var2 = "details_en" . env('DEFAULT_LANGUAGE');
+                                    if ($customField->$cf_details_var != "") {
+                                        $cf_details = $customField->$cf_details_var;
+                                    } else {
+                                        $cf_details = $customField->$cf_details_var2;
+                                    }
+                                    $cf_details_lines = preg_split('/\r\n|[\r\n]/', $cf_details);
+                                    $line_num = 1;
+                                    ?>
+                                    @foreach ($cf_details_lines as $cf_details_line)
+                                        <div class="m-t-sm">
+                                            <label class="md-check">
+                                                <input type="radio" value="{{ $line_num }}"
+                                                       name="{{'customField_'.$customField->id}}" {{$cf_required}}
+                                                       id="{{'customField_'.$customField->id}}_{{$line_num}}"
+                                                       {{ ($customField->default_value == $line_num) ? "checked":""  }} class="has-value">
+                                                <i class="blue"></i>
+                                                {{ $cf_details_line }}
+                                            </label>
+                                        </div>
+                                        <?php
+                                        $line_num++;
+                                        ?>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @elseif($customField->type ==14)
+                            {{--Checkbox--}}
+                            <div class="form-group row">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-10">
+                                    <label class="md-check">
+                                        <input type="checkbox" name="{{'customField_'.$customField->id}}" id="{{'customField_'.$customField->id}}"  value="1" class="has-value">
+                                        <i class="blue"></i>
+                                        {!!  $cf_title !!}
+                                        {!! $cf_land_identifier !!}
+                                    </label>
+                                </div>
+                            </div>
                         @elseif($customField->type ==7)
                             {{--Multi Check--}}
                             <div class="form-group row">
@@ -414,7 +464,8 @@
                     <input type="hidden" name="TopicID" value="{{ @$Topic->id }}">
                     <input type="hidden" name="WebmasterSectionId" value="{{ encrypt($WebmasterSection->id) }}">
                     <button type="submit"
-                            class="btn btn-lg submit-btn btn-theme"><i class="fa fa-send"></i> {{ __('backend.submit') }}</button>
+                            class="btn btn-lg submit-btn btn-theme"><i
+                            class="fa fa-send"></i> {{ __('backend.submit') }}</button>
                 </div>
             </div>
             {{Form::close()}}

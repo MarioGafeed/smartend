@@ -53,101 +53,7 @@
                 </div>
             </div>
         </div>
-        <div class="fullcalendar" ui-jp="fullCalendar" ui-options="{
-        header: {
-          left: '{{ ( @Helper::currentLanguage()->direction=="rtl")?"next":"prev" }}',
-          center: 'title',
-          right: '{{ ( @Helper::currentLanguage()->direction=="rtl")?"prev":"next" }}'
-        },
-        defaultDate: '{{ $DefaultDate }}',
-        editable: true,
-        eventLimit: false,
-        firstDay: {{ env("FIRST_DAY_OF_WEEK",0) }},
-        events: [
-        @foreach($Events as $Event)
-        @if($Event->type ==3)
-            {
-          id: {!! $Event->id !!},
-                  title: '{!! $Event->title !!}',
-                  url: '{{ route("calendarEdit",["id"=>$Event->id]) }}',
-                  start: '{{ date('Y-m-d', strtotime($Event->start_date)) }}',
-                  end: '{{ date('Y-m-d', strtotime($Event->end_date)) }}',
-                  className: ['info']
-                },
-        @elseif($Event->type ==2)
-            {
-          id: {!! $Event->id !!},
-                  title: '{!! $Event->title !!}',
-                  url: '{{ route("calendarEdit",["id"=>$Event->id]) }}',
-                  start: '{{ date('Y-m-d H:i:s', strtotime($Event->start_date)) }}',
-                  end: '{{ date('Y-m-d H:i:s', strtotime($Event->end_date)) }}',
-                  className: ['danger']
-                },
-        @elseif($Event->type ==1)
-            {
-          id: {!! $Event->id !!},
-                  title: '{!! $Event->title !!}',
-                  url: '{{ route("calendarEdit",["id"=>$Event->id]) }}',
-                  start: '{{ date('Y-m-d H:i:s', strtotime($Event->start_date)) }}',
-                  className: ['green']
-                },
-        @else
-            {
-          id: {!! $Event->id !!},
-                  title: '{!! $Event->title !!}',
-                  url: '{{ route("calendarEdit",["id"=>$Event->id]) }}',
-                  start: '{{ date('Y-m-d', strtotime($Event->start_date)) }}',
-                  className: ['white']
-                },
-        @endif
-
-        @endforeach
-            ],
-
-    eventResize: function(event, delta, revertFunc) {
-        if (!confirm('is this okay?')) {
-        revertFunc();
-        }else{
-            $(document).ready(function(){
-                $.ajax({
-                url: '{{ asset(env('BACKEND_PATH')."/calendar/") }}/' + event.id + '/extend',
-                        type: 'post',
-                        data: {'started_on': event.start.format(),'ended_on':event.end.format(),'_token':'{{ csrf_token() }}'},
-                        success: function(data){
-
-                            }
-                        });
-                    });
-                }
-            },
-        dayClick:  function(date, jsEvent, view) {
-            var thisdate = new Date(date).getFullYear() + '-' + ('0'+(new Date(date).getMonth()+1)).slice(-2)  + '-' + ('0'+(new Date(date).getDate())).slice(-2);
-            $('#mmn-new #date').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}'));
-            $('#mmn-new #date_start').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}'));
-            $('#mmn-new #date_end').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}'));
-            $('#mmn-new #date_at').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}') + ' {{ date("h:i A") }}');
-            $('#mmn-new #time_start').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}') + ' {{ date("h:i A") }}');
-            $('#mmn-new #time_end').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}') + ' {{ date("h:i A") }}');
-            $('#mmn-new').modal();
-        },
-            eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) {
-                if (!confirm('is this okay?')) {
-                revertFunc();
-                }else{
-                     $(document).ready(function(){
-                        $.ajax({
-                        url: '{{ asset(env('BACKEND_PATH')."/calendar/") }}/' + event.id + '/extend',
-                        type: 'post',
-                        data: {'started_on': event.start.format(),'_token':'{{ csrf_token() }}'},
-                        success: function(data){
-
-                            }
-                        });
-                    });
-                }
-            }
-
-        }">
+        <div class="fullcalendar" id="fullcalendar">
         </div>
         <br>
         <small class="pull-right">{{ __('backend.eventTotal') }} : ( {{ count($Events) }} )</small>
@@ -157,9 +63,155 @@
                   ui-target="#animate">{{ __('backend.eventClear') }}</a></small>
     </div>
 @endsection
+@push("before-styles")
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/js/fullcalendar/dist/fullcalendar.theme.css') }}?v={{ Helper::system_version() }}" type="text/css"/>
+@endpush
 @push("after-scripts")
 
+    <script
+        src="{{ asset('assets/dashboard/js/fullcalendar/dist/index.global.min.js') }}?v={{ Helper::system_version() }}"
+        defer></script>
+    <script
+        src="{{ asset('assets/dashboard/js/fullcalendar/dist/locales/') }}/{{ @Helper::currentLanguage()->code }}.global.min.js?v={{ Helper::system_version() }}"
+        defer></script>
     <script type="text/javascript">
+        function pad(s) {
+            return (s < 10) ? '0' + s : s;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('fullcalendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: '{{ ( @Helper::currentLanguage()->direction=="rtl")?"next":"prev" }}',
+                    center: 'title',
+                    right: '{{ ( @Helper::currentLanguage()->direction=="rtl")?"prev":"next" }}'
+                },
+                locale: '{{ @Helper::currentLanguage()->code }}',
+                initialDate: '{{ date("Y-m-d") }}',
+                editable: true,
+                selectable: true,
+                businessHours: true,
+                firstDay: {{ env("FIRST_DAY_OF_WEEK",0) }},
+                dayMaxEvents: true, // allow "more" link when too many events
+                events: [
+                        @foreach($Events as $Event)
+                        @if($Event->type ==3)
+                    {
+                        id: {!! $Event->id !!},
+                        title: '{!! $Event->title !!}',
+                        url: '{{ route("calendarEdit",["id"=>$Event->id]) }}',
+                        start: '{{ date('Y-m-d', strtotime($Event->start_date)) }}',
+                        end: '{{ date('Y-m-d', strtotime($Event->end_date)) }}',
+                        className: ['info']
+                    },
+                        @elseif($Event->type ==2)
+                    {
+                        id: {!! $Event->id !!},
+                        title: '{!! $Event->title !!}',
+                        url: '{{ route("calendarEdit",["id"=>$Event->id]) }}',
+                        start: '{{ date('Y-m-d H:i:s', strtotime($Event->start_date)) }}',
+                        end: '{{ date('Y-m-d H:i:s', strtotime($Event->end_date)) }}',
+                        className: ['danger']
+                    },
+                        @elseif($Event->type ==1)
+                    {
+                        id: {!! $Event->id !!},
+                        title: '{!! $Event->title !!}',
+                        url: '{{ route("calendarEdit",["id"=>$Event->id]) }}',
+                        start: '{{ date('Y-m-d H:i:s', strtotime($Event->start_date)) }}',
+                        className: ['green']
+                    },
+                        @else
+                    {
+                        id: {!! $Event->id !!},
+                        title: '{!! $Event->title !!}',
+                        url: '{{ route("calendarEdit",["id"=>$Event->id]) }}',
+                        start: '{{ date('Y-m-d', strtotime($Event->start_date)) }}',
+                        className: ['white']
+                    },
+                    @endif
+
+                    @endforeach
+                ],
+                dateClick: function (info) {
+                    var date = info.dateStr;
+                    var thisdate = new Date(date).getFullYear() + '-' + ('0' + (new Date(date).getMonth() + 1)).slice(-2) + '-' + ('0' + (new Date(date).getDate())).slice(-2);
+                    $('#mmn-new #date').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}'));
+                    $('#mmn-new #date_start').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}'));
+                    $('#mmn-new #date_end').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}'));
+                    $('#mmn-new #date_at').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}') + ' {{ date("h:i A") }}');
+                    $('#mmn-new #time_start').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}') + ' {{ date("h:i A") }}');
+                    $('#mmn-new #time_end').val(js_fd(thisdate, '{{ Helper::jsDateFormat() }}') + ' {{ date("h:i A") }}');
+                    $('#mmn-new').modal();
+                },
+
+                eventResize: function (info) {
+                    var event = info.event;
+                    if (!confirm('is this okay?')) {
+                        info.revert();
+                    } else {
+                        $(document).ready(function () {
+                            var d = event.start;
+                            var start_date = [d.getFullYear(), pad(d.getMonth() + 1), pad(d.getDate())].join('-');
+                            var d2 = event.end;
+                            var end_date = [d2.getFullYear(), pad(d2.getMonth() + 1), pad(d2.getDate())].join('-');
+                            $.ajax({
+                                url: '{{ asset(env('BACKEND_PATH')."/calendar/") }}/' + event.id + '/extend',
+                                type: 'post',
+                                data: {
+                                    'started_on': start_date,
+                                    'ended_on': end_date,
+                                    '_token': '{{ csrf_token() }}'
+                                },
+                                success: function (data) {
+
+                                }
+                            });
+                        });
+                    }
+                },
+                eventDrop: function (info) {
+                    var event = info.event;
+                    if (!confirm('is this okay?')) {
+                        info.revert();
+                    } else {
+                        $(document).ready(function () {
+                            var d = event.start;
+                            var start_date = [d.getFullYear(), pad(d.getMonth() + 1), pad(d.getDate())].join('-');
+                            $.ajax({
+                                url: '{{ asset(env('BACKEND_PATH')."/calendar/") }}/' + event.id + '/extend',
+                                type: 'post',
+                                data: {'started_on': start_date, '_token': '{{ csrf_token() }}'},
+                                success: function (data) {
+
+                                }
+                            });
+                        });
+                    }
+                }
+            });
+
+            calendar.render();
+            $(document).on('click', '#dayview', function() {
+                calendar.changeView('timeGridDay')
+            });
+
+            $(document).on('click', '#weekview', function() {
+                calendar.changeView( 'timeGridWeek')
+            });
+
+            $(document).on('click', '#monthview', function() {
+                calendar.changeView( 'dayGridMonth')
+            });
+
+            $(document).on('click', '#todayview', function() {
+                calendar.today()
+            });
+
+        });
+
         $(document).ready(function () {
             $("#type0l").click(function () {
                 $('#date').show();

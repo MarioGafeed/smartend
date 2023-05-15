@@ -167,6 +167,11 @@ Route::get('/{webmasterId}/topics/{id}/maps/destroy/{map_id}',
 Route::post('/{webmasterId}/topics/{id}/maps/updateAll',
     [TopicsController::class, 'mapsUpdateAll'])->name('topicsMapsUpdateAll');
 
+// keditor
+Route::get('/keditor/{topic_id?}', [TopicsController::class, 'keditor'])->name('keditor');
+Route::get('/keditor-snippets', [TopicsController::class, 'keditor_snippets'])->name('keditorSnippets');
+Route::post('/keditor-save', [TopicsController::class, 'keditor_save'])->name('keditorSave');
+
 // Contacts Groups
 Route::post('/contacts/storeGroup', [ContactsController::class, 'storeGroup'])->name('contactsStoreGroup');
 Route::get('/contacts/{id}/editGroup', [ContactsController::class, 'editGroup'])->name('contactsEditGroup');

@@ -9,6 +9,7 @@
         "alexusmai/laravel-file-manager": "^3.0",
         "anhskohbo/no-captcha": "^3.4",
         "guzzlehttp/guzzle": "^7.2",
+        "intervention/image": "^2.7",
         "joedixon/laravel-translation": "1.1.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",

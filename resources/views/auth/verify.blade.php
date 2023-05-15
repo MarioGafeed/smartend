@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.auth')
 @section('title', __('Verify Your Email Address'))
 @section('content')
-    <div class="center-block w-xxl p-t-3">
+    <div class="center-block w-xxl p-a-2">
         <div class="p-a-md box-color r box-shadow-z4 text-color">
             <div class="text-center">
                 @if(Helper::GeneralSiteSettings("style_logo_" . @Helper::currentLanguage()->code) !="")
