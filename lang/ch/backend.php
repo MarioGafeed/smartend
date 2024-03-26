@@ -403,7 +403,7 @@ return array(
     'signIn' => 'Sign in',
     'keepMeSignedIn' => 'Keep me signed in',
     'signedInToControl' => 'Sign in to CONTROL',
-    'control' => 'Smartend',
+    'control' => 'Mario',
     'resetPassword' => 'Reset Password',
     'confirmPassword' => 'Confirm Password',
     'newPassword' => 'New Password',

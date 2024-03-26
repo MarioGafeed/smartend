@@ -2,7 +2,7 @@
     <div class="p-a text-xs">
         <div class="pull-right text-muted">
             &copy;<?php echo date("Y") ?> Copyright
-            <strong>Smartend {{ Helper::system_version() }}</strong>
+            <strong>Mario {{ Helper::system_version() }}</strong>
             <a ui-scroll-to="content"><i class="fa fa-long-arrow-up p-x-sm"></i></a>
         </div>
         <div class="nav">
